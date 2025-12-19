@@ -1,0 +1,21 @@
+registro-motos/
+├── config/
+│   └── database.js          # Configuración de Sequelize
+├── models/
+│   ├── index.js             # Inicialización de modelos
+│   ├── Usuario.js           # Modelo tabla_usuario
+│   └── Moto.js              # Modelo tabla_moto
+├── routes/
+│   ├── publicRoutes.js      # Rutas públicas (vista solo lectura)
+│   └── adminRoutes.js       # Rutas protegidas (CRUD)
+├── middleware/
+│   └── auth.js              # Middleware de autenticación
+├── views/
+│   ├── index.ejs            # Vista pública (solo lectura + buscador)
+│   ├── login.ejs            # Formulario de login
+│   ├── adminMotos.ejs       # CRUD de motos (admin)
+│   └── adminUsuarios.ejs    # CRUD de usuarios (admin)
+├── public/
+│   └── style.css            # Estilos básicos
+├── app.js                   # Punto de entrada (Express + rutas)
+└── initDB.js                # Script de inicialización automática de BD y tablas
