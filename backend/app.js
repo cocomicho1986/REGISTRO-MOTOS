@@ -52,22 +52,39 @@ app.use(session({
 }));
 
 // ========================================
+// SERVIDOR DE ARCHIVOS ESTÁTICOS (SOLO EN PRODUCCIÓN)
+// ========================================
+if (config.env === 'production') {
+  // Servir archivos estáticos del frontend construido
+  const frontendDist = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendDist));
+  
+  // Manejar rutas de React Router (todas las rutas no-API llevan al index.html)
+  app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
+// ========================================
 // INICIALIZACIÓN DE BASE DE DATOS
 // ========================================
 async function initDatabase() {
   console.log(`📡 Iniciando en entorno: ${config.env}`);
   console.log(`🗃️  Base de datos: ${config.mysql.database}`);
 
-  const connection = await mysql.createConnection({
-    host: config.mysql.host,
-    user: config.mysql.user,
-    password: config.mysql.password
-  });
+  // En producción con servicios externos, omitir CREATE DATABASE
+  // ya que no todos los proveedores lo permiten
+  if (config.env === 'development') {
+    const connection = await mysql.createConnection({
+      host: config.mysql.host,
+      user: config.mysql.user,
+      password: config.mysql.password
+    });
 
-  await connection.execute(`CREATE DATABASE IF NOT EXISTS ${config.mysql.database}`);
-  await connection.end();
-
-  console.log('✅ Base de datos lista.');
+    await connection.execute(`CREATE DATABASE IF NOT EXISTS ${config.mysql.database}`);
+    await connection.end();
+    console.log('✅ Base de datos lista.');
+  }
 
   const sequelize = require('./config/database');
   const { Usuario } = require('./models');
