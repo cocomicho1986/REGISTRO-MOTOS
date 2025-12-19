@@ -8,13 +8,13 @@
  * Funcionamiento:
  * - Revisa si existe una sesión activa (`req.session`) y si contiene un `userId`.
  * - Si el usuario está autenticado, permite continuar a la ruta solicitada (`next()`).
- * - Si NO está autenticado, redirige al formulario de login.
+ * - Si NO está autenticado, devuelve un error 401 (no autorizado) en formato JSON.
  * 
- * Este middleware se usa en rutas que requieren permisos de administrador,
+ * Este middleware se usa en rutas de API que requieren autenticación,
  * como la gestión de motos o usuarios.
  * 
  * @param {Object} req - Objeto de solicitud HTTP (contiene la sesión del usuario).
- * @param {Object} res - Objeto de respuesta HTTP (usado para redirigir).
+ * @param {Object} res - Objeto de respuesta HTTP.
  * @param {Function} next - Función para pasar al siguiente middleware o controlador.
  */
 function requireAuth(req, res, next) {
@@ -23,8 +23,10 @@ function requireAuth(req, res, next) {
     return next(); // El usuario está autenticado → permite el acceso
   }
   
-  // Si no hay sesión activa, redirige al login
-  res.redirect('/login');
+  // En APIs, siempre responder con JSON (funciona en desarrollo y producción)
+  return res.status(401).json({ 
+    error: 'Acceso no autorizado. Inicie sesión.' 
+  });
 }
 
 // Exporta el middleware para que pueda ser usado en las rutas protegidas
