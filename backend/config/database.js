@@ -40,7 +40,10 @@ const sequelize = new Sequelize(
     },
     
     // Añade la configuración SSL condicional
-    dialectOptions
+    dialectOptions,
+    
+    // 🔑 AÑADIDO: Activa SSL a nivel de conexión para FreeSQLDatabase
+    ssl: process.env.NODE_ENV === 'production' ? true : false
   }
 );
 
