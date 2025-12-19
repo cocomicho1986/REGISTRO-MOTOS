@@ -1,9 +1,7 @@
 {
   "name": "registro-motos-full",
-  "version": "1.0.0",
-  "description": "Sistema de registro de motos robadas",
   "scripts": {
-    "dev": "concurrently \"cd backend && node app.js\" \"cd frontend && npm run dev\"",
+    "dev": "concurrently \"cd backend && npm install && node app.js\" \"cd frontend && npm install && npm run dev\"",
     "build": "cd frontend && npm install && npm run build",
     "start": "cd backend && npm install && node app.js"
   },
