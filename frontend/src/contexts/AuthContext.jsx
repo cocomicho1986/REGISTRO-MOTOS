@@ -12,9 +12,16 @@ export function AuthProvider({ children }) {
     const verificarSesion = async () => {
       try {
         const res = await api.get('/auth');
-        setUsuario(res.data.usuario);
-      } catch {
-        setUsuario(null);
+        setUsuario(res.data.usuario || null);
+      } catch (error) {
+        // Manejo silencioso de "no autenticado"
+        if (error.response?.status === 401) {
+          setUsuario(null);
+        } else {
+          // Otros errores (red, servidor) → también limpiar usuario
+          console.warn('Error inesperado al verificar sesión:', error.message);
+          setUsuario(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -24,7 +31,8 @@ export function AuthProvider({ children }) {
 
   const login = async (nombre, clave) => {
     const res = await api.post('/auth/login', { nombre, clave });
-    setUsuario(res.data);
+    // Aseguramos que el objeto tenga la estructura esperada
+    setUsuario({ id: res.data.usuario?.id, nombre: res.data.nombre });
     return res.data;
   };
 
@@ -40,5 +48,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-// ✅ Solo exportamos el componente (para Fast Refresh)
 export { AuthContext };
