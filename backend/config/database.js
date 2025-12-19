@@ -8,6 +8,16 @@ require('dotenv').config({ path: envFile });
 
 const { Sequelize } = require('sequelize'); // Importa la clase principal de Sequelize
 
+// Configuración condicional para producción (FreeSQLDatabase requiere SSL)
+const dialectOptions = process.env.NODE_ENV === 'production' 
+  ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false // Necesario para FreeSQLDatabase
+      }
+    }
+  : {};
+
 // Crea una instancia de Sequelize con los parámetros de conexión a MySQL
 // Esta instancia será reutilizada por todos los modelos para interactuar con la base de datos.
 const sequelize = new Sequelize(
@@ -27,7 +37,10 @@ const sequelize = new Sequelize(
       // Desactiva los campos automáticos 'createdAt' y 'updatedAt'.
       // Tus tablas no los tienen, así que los desactivamos para evitar errores.
       timestamps: false
-    }
+    },
+    
+    // Añade la configuración SSL condicional
+    dialectOptions
   }
 );
 
