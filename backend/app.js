@@ -55,11 +55,9 @@ app.use(session({
 // SERVIDOR DE ARCHIVOS ESTÁTICOS (SOLO EN PRODUCCIÓN)
 // ========================================
 if (config.env === 'production') {
-  // Servir archivos estáticos del frontend construido
   const frontendDist = path.join(__dirname, '../frontend/dist');
   app.use(express.static(frontendDist));
   
-  // Manejar rutas de React Router (todas las rutas no-API llevan al index.html)
   app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(frontendDist, 'index.html'));
   });
@@ -70,61 +68,73 @@ if (config.env === 'production') {
 // ========================================
 async function initDatabase() {
   console.log(`📡 Iniciando en entorno: ${config.env}`);
-  console.log(`🗃️  Base de datos: ${config.mysql.database}`);
+  console.log(`🗃️  Conectando a base de datos: ${config.mysql.database}`);
+  console.log(`👤 Usuario: ${config.mysql.user}`);
+  console.log(`📍 Host: ${config.mysql.host}`);
+  console.log(`🔌 Puerto: 3306 (predeterminado MySQL)`);
 
-  // En producción con servicios externos, omitir CREATE DATABASE
-  // ya que no todos los proveedores lo permiten
-  if (config.env === 'development') {
-    const connection = await mysql.createConnection({
+  // Intentar conexión directa con mysql2 para diagnóstico más preciso
+  try {
+    console.log('🔍 Intentando conexión directa con mysql2...');
+    const testConnection = await mysql.createConnection({
       host: config.mysql.host,
       user: config.mysql.user,
-      password: config.mysql.password
+      password: config.mysql.password,
+      database: config.mysql.database,
+      connectTimeout: 10000, // 10s timeout
+      // ssl: config.env === 'production' ? { rejectUnauthorized: false } : false // desactivado para FreeSQLDatabase
     });
 
-    await connection.execute(`CREATE DATABASE IF NOT EXISTS ${config.mysql.database}`);
-    await connection.end();
-    console.log('✅ Base de datos lista.');
-  }
+    console.log('✅ Conexión directa con mysql2 exitosa.');
+    await testConnection.end();
 
-  const sequelize = require('./config/database');
-  const { Usuario } = require('./models');
+    // Ahora sincronizar con Sequelize
+    const sequelize = require('./config/database');
+    const { Usuario } = require('./models');
+    await sequelize.authenticate();
+    console.log('✅ Conexión con Sequelize verificada.');
 
-  await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false });
 
-  const adminUser = await Usuario.findOne({ where: { nombre: 'admin' } });
-  const bcrypt = require('bcrypt');
+    const adminUser = await Usuario.findOne({ where: { nombre: 'admin' } });
+    const bcrypt = require('bcrypt');
 
-  if (!adminUser) {
-    await Usuario.crearConHash('admin', '1234');
-    console.log('🔑 Usuario "admin" creado con contraseña hasheada.');
-  } else {
-    const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
-                         adminUser.clave.startsWith('$2a$') || 
-                         adminUser.clave.startsWith('$2y$');
-    
-    if (!esHashBcrypt) {
-      const nuevoHash = await bcrypt.hash('1234', 10);
-      await Usuario.update({ clave: nuevoHash }, { where: { id: adminUser.id } });
-      console.log('🔑 Contraseña del usuario "admin" actualizada a hash seguro.');
+    if (!adminUser) {
+      await Usuario.crearConHash('admin', '1234');
+      console.log('🔑 Usuario "admin" creado con contraseña hasheada.');
     } else {
-      console.log('👤 Usuario "admin" ya existe con contraseña hasheada.');
+      const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
+                           adminUser.clave.startsWith('$2a$') || 
+                           adminUser.clave.startsWith('$2y$');
+      
+      if (!esHashBcrypt) {
+        const nuevoHash = await bcrypt.hash('1234', 10);
+        await Usuario.update({ clave: nuevoHash }, { where: { id: adminUser.id } });
+        console.log('🔑 Contraseña del usuario "admin" actualizada a hash seguro.');
+      } else {
+        console.log('👤 Usuario "admin" ya existe con contraseña hasheada.');
+      }
     }
-  }
 
-  console.log('✅ Tablas sincronizadas y usuario de prueba listo.');
+    console.log('✅ Tablas sincronizadas y usuario de prueba listo.');
+
+  } catch (err) {
+    console.error('❌ Error detallado al conectar con la base de datos:');
+    console.error('   Mensaje:', err.message);
+    console.error('   Código:', err.code || 'N/A');
+    console.error('   Código SQL:', err.sqlState || 'N/A');
+    console.error('   Stack:', err.stack ? err.stack.split('\n')[0] : 'N/A');
+    throw err; // Propagar para que el catch global lo maneje
+  }
 }
 
 // ========================================
 // RUTAS DE LA API
 // ========================================
-// Rutas de autenticación
 app.use('/api/auth', require('./routes/authRoutes'));
-
-// Rutas protegidas (requieren login)
 app.use('/api/motos', require('./routes/motoRoutes'));
 app.use('/api/usuarios', require('./routes/usuarioRoutes'));
 
-// Ruta raíz (opcional, para verificar que la API funciona)
 app.get('/api', (req, res) => {
   res.json({ 
     message: 'API de Registro de Motos activa ✅',
@@ -137,12 +147,12 @@ app.get('/api', (req, res) => {
 // ========================================
 initDatabase()
   .then(() => {
-    app.listen(config.port, () => {
-      console.log(`🚀 Backend ${config.env} corriendo en http://localhost:${config.port}`);
+    app.listen(config.port, '0.0.0.0', () => {
+      console.log(`🚀 Backend ${config.env} corriendo en puerto ${config.port}`);
       console.log(`🌐 Frontend esperado en: ${config.frontendUrl}`);
     });
   })
   .catch(err => {
-    console.error('❌ Error al iniciar backend:', err.message);
+    console.error('💥 Error fatal al iniciar backend. La aplicación se cerrará.');
     process.exit(1);
   });
