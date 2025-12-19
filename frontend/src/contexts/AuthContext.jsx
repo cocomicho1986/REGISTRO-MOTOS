@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState } from 'react';
 import api from '../services/api';
 
-const AuthContext = createContext();
+const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
@@ -14,12 +14,10 @@ export function AuthProvider({ children }) {
         const res = await api.get('/auth');
         setUsuario(res.data.usuario || null);
       } catch (error) {
-        // Manejo silencioso de "no autenticado"
         if (error.response?.status === 401) {
           setUsuario(null);
         } else {
-          // Otros errores (red, servidor) → también limpiar usuario
-          console.warn('Error inesperado al verificar sesión:', error.message);
+          console.warn('Error al verificar sesión:', error.message);
           setUsuario(null);
         }
       } finally {
@@ -31,7 +29,6 @@ export function AuthProvider({ children }) {
 
   const login = async (nombre, clave) => {
     const res = await api.post('/auth/login', { nombre, clave });
-    // Aseguramos que el objeto tenga la estructura esperada
     setUsuario({ id: res.data.usuario?.id, nombre: res.data.nombre });
     return res.data;
   };
@@ -47,5 +44,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export { AuthContext };
