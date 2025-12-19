@@ -8,6 +8,16 @@ require('dotenv').config({ path: envFile });
 
 const { Sequelize } = require('sequelize'); // Importa la clase principal de Sequelize
 
+// Configuración con SSL para Clever Cloud (requerido en producción)
+const dialectOptions = process.env.NODE_ENV === 'production'
+  ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false // necesario para certificados de Clever Cloud
+      }
+    }
+  : {};
+
 // Crea una instancia de Sequelize con los parámetros de conexión a MySQL
 // Esta instancia será reutilizada por todos los modelos para interactuar con la base de datos.
 const sequelize = new Sequelize(
@@ -27,9 +37,11 @@ const sequelize = new Sequelize(
       // Desactiva los campos automáticos 'createdAt' y 'updatedAt'.
       // Tus tablas no los tienen, así que los desactivamos para evitar errores.
       timestamps: false
-    }
-    // ⚠️ Eliminado: dialectOptions y ssl
-    // FreeSQLDatabase NO soporta SSL de forma fiable → conexión sin cifrar
+    },
+    
+    // Habilita SSL en producción para Clever Cloud
+    dialectOptions,
+    ssl: process.env.NODE_ENV === 'production' ? true : false
   }
 );
 
