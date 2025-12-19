@@ -16,3 +16,6 @@ build/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Archivos de utilidad local (no subir a GitHub)
+initDB.js
