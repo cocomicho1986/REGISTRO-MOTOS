@@ -1,0 +1,96 @@
+/* Estilos para la lista pública de motos - VERSIÓN COMPACTA */
+.moto-list-public-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.moto-list-public-title {
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+}
+
+.login-link {
+  display: block;
+  margin-bottom: 15px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.search-container-publica {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search-input-publica {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.btn-buscar-publica {
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-buscar-publica:hover {
+  background-color: #0069d9;
+}
+
+/* Contenedor con scroll vertical */
+.moto-table-container {
+  max-height: 60vh; /* Ocupa el 60% de la altura de la ventana */
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.moto-table-public {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.moto-table-public th,
+.moto-table-public td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.moto-table-public th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.moto-table-public tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table-empty-publica {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,77 @@
+/* Estilos para la lista pública de motos robadas */
+.moto-list-publica-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.moto-list-publica-title {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.login-link {
+  display: block;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+.search-container-publica {
+  margin-bottom: 20px;
+}
+
+.search-input-publica {
+  padding: 8px;
+  font-size: 16px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-buscar-publica {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-buscar-publica:hover {
+  background-color: #0069d9;
+}
+
+.moto-table-publica {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.moto-table-publica th,
+.moto-table-publica td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.moto-table-publica th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.moto-table-publica tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.table-empty-publica {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+}

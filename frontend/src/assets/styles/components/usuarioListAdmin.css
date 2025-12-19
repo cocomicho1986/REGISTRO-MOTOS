@@ -1,0 +1,106 @@
+/* Estilos para la lista de usuarios del admin - VERSIÓN COMPACTA */
+.usuario-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.usuario-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.usuario-list-title {
+  margin: 0;
+  color: #333;
+  font-size: 1.4rem;
+}
+
+.btn-agregar-usuario {
+  padding: 6px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-agregar-usuario:hover {
+  background-color: #218838;
+}
+
+/* Contenedor con scroll vertical */
+.usuario-table-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.usuario-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.usuario-table th,
+.usuario-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+.usuario-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.usuario-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table-empty-usuario {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.btn-accion-usuario {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+
+.btn-editar-usuario {
+  background-color: #ffc107;
+  color: #212529;
+  font-weight: 500;
+}
+
+.btn-editar-usuario:hover {
+  background-color: #e0a800;
+}
+
+.btn-borrar-usuario {
+  background-color: #dc3545;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-borrar-usuario:hover {
+  background-color: #c82333;
+}
