@@ -134,3 +134,20 @@
 .btn-borrar:hover {
   background-color: #c82333;
 }
+/* Botón peligroso: restaurar tabla */
+.btn-reset-peligroso {
+  padding: 8px 16px;
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-width: 140px;
+}
+
+.btn-reset-peligroso:hover {
+  background-color: #c53030;
+}

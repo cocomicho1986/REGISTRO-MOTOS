@@ -4,8 +4,9 @@
 // Contiene acciones para vistas públicas y administrativas.
 // ⚠️ Actualizado para API REST: devuelve JSON, no renderiza vistas.
 
-const { Op } = require('sequelize');        // Operadores de Sequelize para consultas avanzadas (ej: LIKE)
-const { Moto } = require('../models');      // Modelo de datos para interactuar con la tabla 'tabla_moto'
+const { Op } = require('sequelize');
+const { Moto } = require('../models');
+const sequelize = require('../config/database'); // ← Añadido para TRUNCATE
 
 /**
  * Obtiene la lista pública de motos (solo lectura).
@@ -73,12 +74,8 @@ exports.crear = async (req, res) => {
 exports.actualizar = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // Actualiza la moto (en MySQL, update() devuelve el número de filas afectadas)
     const updated = await Moto.update(req.body, { where: { id } });
-    
     if (updated > 0) {
-      // Obtiene la moto actualizada para devolverla
       const motoActualizada = await Moto.findByPk(id);
       res.json(motoActualizada);
     } else {
@@ -129,5 +126,16 @@ exports.obtenerPorId = async (req, res) => {
   } catch (error) {
     console.error('Error al obtener moto por ID:', error);
     res.status(500).json({ error: 'Error al obtener la moto' });
+  }
+};
+
+// 🔥 NUEVA FUNCIÓN: Reiniciar tabla completa
+exports.resetearTabla = async (req, res) => {
+  try {
+    await sequelize.query('TRUNCATE TABLE tabla_moto');
+    res.json({ message: '✅ Tabla de motos reiniciada. El próximo ID será 1.' });
+  } catch (error) {
+    console.error('Error al reiniciar tabla:', error.message);
+    res.status(500).json({ error: '❌ No se pudo reiniciar la tabla.' });
   }
 };

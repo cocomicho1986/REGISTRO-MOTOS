@@ -1,5 +1,5 @@
 // frontend/src/hooks/useMotos.js
-import { useState, useEffect, useCallback } from 'react'; // ← Añadido useCallback
+import { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 
 export default function useMotos() {
@@ -7,7 +7,6 @@ export default function useMotos() {
   const [dominio, setDominio] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 👇 Memoizamos cargarMotos para que tenga identidad estable
   const cargarMotos = useCallback(async () => {
     setLoading(true);
     try {
@@ -19,15 +18,15 @@ export default function useMotos() {
     } finally {
       setLoading(false);
     }
-  }, [dominio]); // ← cargarMotos depende de dominio
+  }, [dominio]);
 
   const borrarMoto = async (id) => {
     if (window.confirm('¿Borrar esta moto?')) {
       try {
         await api.delete(`/motos/${id}`);
-        cargarMotos(); // ← Ahora cargarMotos es estable
+        cargarMotos();
         return true;
-      } catch  {
+      } catch {
         alert('Error al borrar la moto');
         return false;
       }
@@ -35,10 +34,34 @@ export default function useMotos() {
     return false;
   };
 
-  // 👇 Ahora podemos incluir cargarMotos en las dependencias sin problemas
+  // 🔥 FUNCIÓN CORREGIDA: resetear y recargar inmediatamente
+  const resetearTablaMotos = async () => {
+    const texto = prompt(
+      '⚠️ ¡ATENCIÓN! Se borrarán TODAS las motos.\n' +
+      'Escribe "REINICIAR" para confirmar:'
+    );
+    if (texto === 'REINICIAR') {
+      try {
+        setLoading(true);
+        await api.post('/motos/reset');
+        alert('✅ ¡Listo! La tabla está vacía. El próximo ID será 1.');
+        setDominio(''); // Limpiar búsqueda
+        setTimeout(() => {
+          cargarMotos(); // Forzar recarga inmediata
+        }, 100);
+      } catch {
+        alert('❌ Error: no se pudo reiniciar la tabla.');
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Acción cancelada.');
+    }
+  };
+
   useEffect(() => {
     cargarMotos();
-  }, [cargarMotos]); // ✅ ESLint feliz
+  }, [cargarMotos]);
 
   return {
     motos,
@@ -46,6 +69,7 @@ export default function useMotos() {
     setDominio,
     loading,
     cargarMotos,
-    borrarMoto
+    borrarMoto,
+    resetearTablaMotos
   };
 }

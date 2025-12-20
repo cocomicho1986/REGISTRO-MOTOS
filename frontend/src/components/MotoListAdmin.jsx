@@ -5,7 +5,7 @@ import '../assets/styles/components/motoListAdmin.css';
 
 export default function MotoListAdmin() {
   const navigate = useNavigate();
-  const { motos, dominio, setDominio, loading, borrarMoto } = useMotos();
+  const { motos, dominio, setDominio, loading, borrarMoto, resetearTablaMotos } = useMotos();
 
   const handleCrear = () => {
     navigate('/admin/motos/nueva');
@@ -25,12 +25,20 @@ export default function MotoListAdmin() {
       
       <div className="moto-list-header">
         <h2 className="moto-list-title">🏍️ Gestión de Motos (Admin)</h2>
-        <button
-          onClick={handleCrear}
-          className="btn-agregar-moto"
-        >
-          + Agregar Moto
-        </button>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <button
+            onClick={resetearTablaMotos}
+            className="btn-reset-peligroso"
+          >
+            💥 Restaurar tabla
+          </button>
+          <button
+            onClick={handleCrear}
+            className="btn-agregar-moto"
+          >
+            + Agregar Moto
+          </button>
+        </div>
       </div>
 
       <div className="search-container">
