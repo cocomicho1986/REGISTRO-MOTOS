@@ -1,8 +1,7 @@
 // frontend/src/contexts/AuthContext.jsx
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../services/api';
-
-const AuthContext = createContext(undefined);
+import { AuthContext } from './AuthContextInstance';
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);

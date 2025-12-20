@@ -1,7 +1,7 @@
 // frontend/src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import useAuth from './contexts/useAuth';
+import { useAuth } from "./hooks/useAuth";
 import LoginForm from './components/LoginForm';
 import MotoListPublica from './components/MotoListPublica';
 import MotoListAdmin from './components/MotoListAdmin';
