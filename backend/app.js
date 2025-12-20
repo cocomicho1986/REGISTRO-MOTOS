@@ -8,6 +8,7 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 
 const app = express();
+app.set('trust proxy', 1); // ← ¡Clave para Render! Confía en el proxy inverso
 
 // ========================================
 // CONFIGURACIÓN BASADA EN VARIABLES DE ENTORNO
@@ -28,9 +29,18 @@ const config = {
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000'
 };
 
-// Habilitar CORS para permitir peticiones desde el frontend
+// Configuración dinámica de CORS
 app.use(cors({
-  origin: config.frontendUrl,
+  origin: function (origin, callback) {
+    // Permite solicitudes sin origin (Postman, mobile, etc.)
+    if (!origin) return callback(null, true);
+    // Permite frontend en desarrollo
+    if (origin === 'http://localhost:3000') return callback(null, true);
+    // Permite cualquier subdominio de Render
+    if (origin.endsWith('.onrender.com')) return callback(null, true);
+    // Rechaza otros orígenes
+    callback(new Error('Origen no permitido por CORS'));
+  },
   credentials: true // ← Permite enviar cookies/sesiones
 }));
 
@@ -38,7 +48,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configurar sesiones con configuración dinámica
+// Configurar sesiones
 app.use(session({
   secret: config.session.secret,
   resave: false,
@@ -50,6 +60,15 @@ app.use(session({
     sameSite: config.env === 'production' ? 'none' : 'lax'
   }
 }));
+
+// Middleware de diagnóstico (solo en desarrollo)
+if (config.env === 'development') {
+  app.use((req, res, next) => {
+    console.log('🍪 Cookies recibidas:', req.cookies);
+    console.log('🔐 Sesion ID:', req.sessionID);
+    next();
+  });
+}
 
 // ========================================
 // SERVIDOR DE ARCHIVOS ESTÁTICOS (SOLO EN PRODUCCIÓN)
@@ -73,7 +92,6 @@ async function initDatabase() {
   console.log(`📍 Host: ${config.mysql.host}`);
   console.log(`🔌 Puerto: 3306 (predeterminado MySQL)`);
 
-  // Intentar conexión directa con mysql2 para diagnóstico más preciso
   try {
     console.log('🔍 Intentando conexión directa con mysql2...');
     const testConnection = await mysql.createConnection({
@@ -81,14 +99,12 @@ async function initDatabase() {
       user: config.mysql.user,
       password: config.mysql.password,
       database: config.mysql.database,
-      connectTimeout: 10000, // 10s timeout
-      // ssl: config.env === 'production' ? { rejectUnauthorized: false } : false // desactivado para FreeSQLDatabase
+      connectTimeout: 10000
     });
 
     console.log('✅ Conexión directa con mysql2 exitosa.');
     await testConnection.end();
 
-    // Ahora sincronizar con Sequelize
     const sequelize = require('./config/database');
     const { Usuario } = require('./models');
     await sequelize.authenticate();
@@ -124,7 +140,7 @@ async function initDatabase() {
     console.error('   Código:', err.code || 'N/A');
     console.error('   Código SQL:', err.sqlState || 'N/A');
     console.error('   Stack:', err.stack ? err.stack.split('\n')[0] : 'N/A');
-    throw err; // Propagar para que el catch global lo maneje
+    throw err;
   }
 }
 
