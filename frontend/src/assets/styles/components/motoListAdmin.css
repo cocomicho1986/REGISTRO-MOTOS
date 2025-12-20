@@ -1,143 +1,169 @@
-/* Estilos para la lista de motos del admin - VERSIÓN COMPACTA */
+/* Estilos para la lista de motos del admin — Minimalista y accesible */
 .moto-list-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 15px;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .moto-list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .moto-list-title {
   margin: 0;
-  color: #333;
-  font-size: 1.4rem;
-}
-
-.btn-agregar-moto {
-  padding: 6px 12px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
+  color: #1f2937; /* gris oscuro más legible */
+  font-size: 1.5rem;
   font-weight: 600;
 }
 
+.btn-agregar-moto {
+  padding: 8px 16px;
+  background-color: #10b981; /* verde más moderno */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-width: 120px;
+}
+
 .btn-agregar-moto:hover {
-  background-color: #218838;
+  background-color: #059669;
 }
 
 .search-container {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .search-input {
   flex: 1;
-  min-width: 200px;
-  padding: 6px 8px;
-  font-size: 0.9rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  min-width: 220px;
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #1f2937;
 }
 
 .btn-buscar {
-  padding: 6px 12px;
-  background-color: #007bff;
+  padding: 10px 20px;
+  background-color: #3b82f6; /* azul moderno */
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  min-width: 100px;
 }
 
 .btn-buscar:hover {
-  background-color: #0069d9;
+  background-color: #2563eb;
 }
 
 /* Contenedor con scroll vertical */
 .moto-table-container {
   max-height: 60vh;
   overflow-y: auto;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  margin-top: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-top: 16px;
 }
 
 .moto-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
+  min-width: 700px;
 }
 
 .moto-table th,
 .moto-table td {
-  padding: 8px;
+  padding: 12px 14px;
   text-align: left;
-  border: 1px solid #dee2e6;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937; /* ✅ texto siempre oscuro y legible */
 }
 
 .moto-table th {
-  background-color: #f8f9fa;
+  background-color: #f9fafb; /* gris muy claro */
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.8125rem;
+  color: #4b5563; /* gris medio para headers */
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
+/* ✅ Filas intercaladas */
+.moto-table tbody tr:nth-child(even) {
+  background-color: #ffffff; /* blanco puro */
+}
+
+.moto-table tbody tr:nth-child(odd) {
+  background-color: #fafafa; /* gris muy suave */
+}
+
+/* Hover refinado */
 .moto-table tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: #f1f5f9 !important; /* azul muy claro al pasar */
 }
 
 .table-empty {
   text-align: center;
-  padding: 20px;
-  color: #6c757d;
-  font-size: 0.9rem;
+  padding: 28px;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
 }
 
+/* Botones de acción */
 .btn-accion {
-  padding: 4px 8px;
+  padding: 6px 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.8rem;
-  margin-right: 5px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-right: 6px;
+  min-width: 70px;
 }
 
 .btn-editar {
-  background-color: #ffc107;
-  color: #212529;
-  font-weight: 500;
+  background-color: #f59e0b; /* amarillo más suave */
+  color: white;
 }
 
 .btn-editar:hover {
-  background-color: #e0a800;
+  background-color: #d97706;
 }
 
 .btn-borrar {
-  background-color: #dc3545;
+  background-color: #ef4444; /* rojo moderno */
   color: white;
-  font-weight: 500;
 }
 
 .btn-borrar:hover {
-  background-color: #c82333;
+  background-color: #dc2626;
 }
+
 /* Botón peligroso: restaurar tabla */
 .btn-reset-peligroso {
   padding: 8px 16px;
-  background-color: #e53e3e;
+  background-color: #ef4444;
   color: white;
   border: none;
   border-radius: 6px;
@@ -149,5 +175,31 @@
 }
 
 .btn-reset-peligroso:hover {
-  background-color: #c53030;
+  background-color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .moto-list-container {
+    padding: 16px;
+  }
+
+  .moto-list-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  .search-input {
+    min-width: auto;
+  }
+
+  .moto-table th,
+  .moto-table td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+  }
 }
