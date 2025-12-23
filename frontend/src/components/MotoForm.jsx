@@ -88,15 +88,19 @@ export default function MotoForm() {
             />
           </div>
           
+          {/* ✅ CAMPO USO: ahora es un select */}
           <div className="form-group">
             <label className="form-label">Uso:</label>
-            <input
+            <select
               name="uso"
-              placeholder="Uso"
-              value={moto.uso || ''}
+              value={moto.uso}
               onChange={handleChange}
               className="form-input"
-            />
+            >
+              <option value="Privado">Privado</option>
+              <option value="Oficial">Oficial</option>
+              <option value="Publico">Público</option>
+            </select>
           </div>
           
           <div className="form-group">
@@ -132,13 +136,17 @@ export default function MotoForm() {
             />
           </div>
           
+          {/* ✅ CAMPO VENCE: manejo especial para "SIN VENCIMIENTO" */}
           <div className="form-group">
             <label className="form-label">Vence:</label>
             <input
               name="vence"
               type="date"
-              value={moto.vence || ''}
-              onChange={handleChange}
+              value={moto.vence === 'SIN VENCIMIENTO' ? '' : moto.vence}
+              onChange={(e) => {
+                const valor = e.target.value || 'SIN VENCIMIENTO';
+                handleChange({ target: { name: 'vence', value: valor } });
+              }}
               className="form-input"
             />
           </div>

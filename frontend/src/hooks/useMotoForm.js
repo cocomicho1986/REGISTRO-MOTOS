@@ -10,11 +10,11 @@ export default function useMotoForm() {
     marca: '',
     modelo: '',
     tipo: '',
-    uso: '',
+    uso: 'Privado',           // ← Valor por defecto
     cuadro: '',
     motor: '',
     cilindrada: '',
-    vence: ''
+    vence: 'SIN VENCIMIENTO'  // ← Valor por defecto
   });
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
@@ -29,7 +29,13 @@ export default function useMotoForm() {
         try {
           const res = await api.get(`/motos/${id}`);
           if (res.data) {
-            setMoto(res.data);
+            // Asegurar valores por defecto si los campos están vacíos
+            const datosConDefaults = {
+              ...res.data,
+              uso: res.data.uso || 'Privado',
+              vence: res.data.vence || 'SIN VENCIMIENTO'
+            };
+            setMoto(datosConDefaults);
           } else {
             setError('Moto no encontrada');
           }
