@@ -1,0 +1,43 @@
+/* frontend/src/components/Footer/Footer.module.css */
+.footer {
+  margin-top: auto;
+  padding: 0.8rem 1.2rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.85rem;
+  color: #6c757d;
+  text-align: center;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.footerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footerItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.footerItem svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+@media (max-width: 576px) {
+  .footer {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .footerContent {
+    gap: 0.6rem;
+  }
+}
