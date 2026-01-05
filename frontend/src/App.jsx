@@ -2,19 +2,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from "./hooks/useAuth";
+import Layout from './components/Layout/Layout'; // ← AGREGADO
 import LoginForm from './components/LoginForm';
 import MotoListPublica from './components/MotoListPublica';
 import MotoListAdmin from './components/MotoListAdmin';
 import MotoForm from './components/MotoForm';
-import UsuarioListAdmin from './components/UsuarioListAdmin'; // ← NUEVO
-import UsuarioForm from './components/UsuarioForm';         // ← NUEVO
+import UsuarioListAdmin from './components/UsuarioListAdmin';
+import UsuarioForm from './components/UsuarioForm';
 
-// Ruta pública: accesible sin login
+// Ruta pública
 function PublicRoute({ children }) {
   return children;
 }
 
-// Ruta protegida: solo para usuarios autenticados
+// Ruta protegida
 function PrivateRoute({ children }) {
   const { usuario, loading } = useAuth();
   
@@ -32,72 +33,71 @@ function PrivateRoute({ children }) {
 function AppContent() {
   return (
     <Routes>
-      {/* Ruta pública principal */}
-      <Route 
-        path="/" 
-        element={
-          <PublicRoute>
-            <MotoListPublica />
-          </PublicRoute>
-        } 
-      />
+      {/* ✅ Envolver todas las rutas principales con Layout */}
+      <Route element={<Layout />}>
+        <Route 
+          path="/" 
+          element={
+            <PublicRoute>
+              <MotoListPublica />
+            </PublicRoute>
+          } 
+        />
+        
+        <Route 
+          path="/admin/motos" 
+          element={
+            <PrivateRoute>
+              <MotoListAdmin />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/admin/motos/nueva" 
+          element={
+            <PrivateRoute>
+              <MotoForm />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/admin/motos/editar/:id" 
+          element={
+            <PrivateRoute>
+              <MotoForm />
+            </PrivateRoute>
+          } 
+        />
+        
+        <Route 
+          path="/admin/usuarios" 
+          element={
+            <PrivateRoute>
+              <UsuarioListAdmin />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/admin/usuarios/nueva" 
+          element={
+            <PrivateRoute>
+              <UsuarioForm />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/admin/usuarios/editar/:id" 
+          element={
+            <PrivateRoute>
+              <UsuarioForm />
+            </PrivateRoute>
+          } 
+        />
+      </Route>
       
-      {/* Login */}
+      {/* ❌ Login SIN Layout (sin footer) */}
       <Route path="/login" element={<LoginForm />} />
       
-      {/* Rutas protegidas para motos */}
-      <Route 
-        path="/admin/motos" 
-        element={
-          <PrivateRoute>
-            <MotoListAdmin />
-          </PrivateRoute>
-        } 
-      />
-      <Route 
-        path="/admin/motos/nueva" 
-        element={
-          <PrivateRoute>
-            <MotoForm />
-          </PrivateRoute>
-        } 
-      />
-      <Route 
-        path="/admin/motos/editar/:id" 
-        element={
-          <PrivateRoute>
-            <MotoForm />
-          </PrivateRoute>
-        } 
-      />
-      
-      {/* Rutas protegidas para usuarios */}
-      <Route 
-        path="/admin/usuarios" 
-        element={
-          <PrivateRoute>
-            <UsuarioListAdmin /> {/* ← REEMPLAZADO */}
-          </PrivateRoute>
-        } 
-      />
-      <Route 
-        path="/admin/usuarios/nueva" 
-        element={
-          <PrivateRoute>
-            <UsuarioForm /> {/* ← NUEVA RUTA */}
-          </PrivateRoute>
-        } 
-      />
-      <Route 
-        path="/admin/usuarios/editar/:id" 
-        element={
-          <PrivateRoute>
-            <UsuarioForm /> {/* ← NUEVA RUTA */}
-          </PrivateRoute>
-        } 
-      />
-      
-      {/* Redirección por defecto */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
