@@ -26,6 +26,9 @@ const config = {
     secret: process.env.SESSION_SECRET || 'motos-secret-2025',
     maxAge: 24 * 60 * 60 * 1000 // 1 día
   },
+  jwt: {
+    secret: process.env.JWT_SECRET || 'registro-motos-jwt-secreto-desarrollo-12345'
+  },
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000'
 };
 
@@ -166,6 +169,7 @@ initDatabase()
     app.listen(config.port, '0.0.0.0', () => {
       console.log(`🚀 Backend ${config.env} corriendo en puerto ${config.port}`);
       console.log(`🌐 Frontend esperado en: ${config.frontendUrl}`);
+      console.log(`🔐 JWT Secret configurado para entorno: ${config.env}`);
     });
   })
   .catch(err => {

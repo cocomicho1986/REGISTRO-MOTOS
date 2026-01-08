@@ -21,6 +21,15 @@ const Usuario = sequelize.define('tabla_usuario', {
     allowNull: false       // Requerido en la base de datos
   },
   
+  // Campo 'email': opcional para compatibilidad con JWT (puede ser null)
+  email: {
+    type: DataTypes.TEXT,
+    allowNull: true,       // Opcional - permite mantener usuarios existentes
+    validate: {
+      isEmail: true
+    }
+  },
+  
   // Campo 'clave': almacena el hash de la contraseña (¡nunca en texto plano!)
   clave: {
     type: DataTypes.TEXT,
@@ -43,24 +52,25 @@ const Usuario = sequelize.define('tabla_usuario', {
  * Crea un nuevo usuario con la contraseña hasheada usando bcrypt.
  * @param {string} nombre - Nombre del usuario.
  * @param {string} clavePlana - Contraseña en texto plano (será hasheada antes de guardar).
+ * @param {string|null} email - Email opcional del usuario.
  * @returns {Promise<Usuario>} - Instancia del usuario creado.
  */
-Usuario.crearConHash = async function(nombre, clavePlana) {
+Usuario.crearConHash = async function(nombre, clavePlana, email = null) {
   // Genera un hash seguro de la contraseña con 10 rondas de sal (valor estándar)
   const hash = await bcrypt.hash(clavePlana, 10);
   
   // Guarda el usuario en la base de datos con el hash, no con la contraseña plana
-  return await this.create({ nombre, clave: hash });
+  return await this.create({ nombre, email, clave: hash });
 };
 
 /**
  * Valida las credenciales de un usuario durante el login.
- * @param {string} nombre - Nombre del usuario.
+ * @param {string} nombre - Nombre del usuario (o email si se implementa búsqueda por email).
  * @param {string} clavePlana - Contraseña ingresada por el usuario.
  * @returns {Promise<Usuario|null>} - Devuelve el usuario si las credenciales son válidas, null si no.
  */
 Usuario.validarClave = async function(nombre, clavePlana) {
-  // Busca al usuario por su nombre
+  // Busca al usuario por su nombre (mantener compatibilidad)
   const usuario = await this.findOne({ where: { nombre } });
   
   // Si no existe el usuario, devuelve null
