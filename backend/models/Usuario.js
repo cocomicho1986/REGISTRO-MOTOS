@@ -15,25 +15,40 @@ const Usuario = sequelize.define('tabla_usuario', {
     autoIncrement: true    // Incremento automático (1, 2, 3...)
   },
   
-  // Campo 'nombre': texto obligatorio (no puede ser NULL)
+  // Campo 'nombre': texto obligatorio con límite de 50 caracteres
   nombre: {
-    type: DataTypes.TEXT,
-    allowNull: false       // Requerido en la base de datos
+    type: DataTypes.STRING(50),    // ← Límite de 50 caracteres
+    allowNull: false,              // Requerido en la base de datos
+    validate: {
+      notEmpty: {
+        msg: 'El nombre no puede estar vacío'
+      },
+      len: {
+        args: [2, 50],
+        msg: 'El nombre debe tener entre 2 y 50 caracteres'
+      }
+    }
   },
   
   // Campo 'email': opcional para compatibilidad con JWT (puede ser null)
   email: {
-    type: DataTypes.TEXT,
-    allowNull: true,       // Opcional - permite mantener usuarios existentes
+    type: DataTypes.STRING(100),   // ← Límite de 100 caracteres
+    allowNull: true,               // Opcional - permite mantener usuarios existentes
     validate: {
-      isEmail: true
+      isEmail: {
+        msg: 'Debe ser un email válido'
+      },
+      len: {
+        args: [0, 100],
+        msg: 'El email no puede superar los 100 caracteres'
+      }
     }
   },
   
   // Campo 'clave': almacena el hash de la contraseña (¡nunca en texto plano!)
   clave: {
-    type: DataTypes.TEXT,
-    allowNull: false       // Requerido en la base de datos
+    type: DataTypes.STRING(60),    // ← bcrypt genera hashes de ~60 caracteres
+    allowNull: false               // Requerido en la base de datos
   }
 }, {
   // Nombre exacto de la tabla en la base de datos (evita que Sequelize use pluralización)
