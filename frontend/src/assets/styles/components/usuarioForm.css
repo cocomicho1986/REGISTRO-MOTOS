@@ -48,6 +48,21 @@
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
+/* ✅ ESTILOS PARA INPUTS CON ERROR */
+.form-input-usuario.error {
+  border-color: #dc3545 !important;
+  background-color: #fff5f5;
+}
+
+/* ✅ ESTILOS PARA MENSAJES DE ERROR */
+.error-message-usuario {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+  font-weight: 500;
+}
+
 .form-error-usuario {
   color: #dc3545;
   text-align: center;
