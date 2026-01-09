@@ -1,4 +1,3 @@
-// frontend/src/components/UsuarioForm.jsx
 import useUsuarioForm from '../hooks/useUsuarioForm';
 import '../assets/styles/components/usuarioForm.css';
 
@@ -10,10 +9,12 @@ export default function UsuarioForm() {
     id,
     handleChange,
     handleSubmit,
-    handleCancel
+    handleCancel,
+    formErrors,
+    validateField
   } = useUsuarioForm();
 
-  if (error) {
+  if (error && !formErrors.nombre) {
     alert(error);
     return null;
   }
@@ -22,13 +23,19 @@ export default function UsuarioForm() {
     return <div className="loading-message-usuario">Cargando usuario...</div>;
   }
 
+  // Función para manejar cambios con validación inmediata
+  const handleInputChange = (e) => {
+    handleChange(e);
+    validateField(e.target.name, e.target.value);
+  };
+
   return (
     <div className="usuario-form-container">
       <h2 className="usuario-form-title">
         {id ? '✏️ Editar Usuario' : '➕ Agregar Usuario'}
       </h2>
       
-      {error && <p className="form-error-usuario">{error}</p>}
+      {error && !formErrors.nombre && <p className="form-error-usuario">{error}</p>}
       
       <form onSubmit={handleSubmit}>
         <div className="form-grid-usuario">
@@ -37,10 +44,13 @@ export default function UsuarioForm() {
               name="nombre"
               placeholder="Nombre *"
               value={usuario.nombre || ''}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
-              className="form-input-usuario"
+              maxLength={50}
+              minLength={2}
+              className={`form-input-usuario ${formErrors.nombre ? 'error' : ''}`}
             />
+            {formErrors.nombre && <span className="error-message-usuario">{formErrors.nombre}</span>}
           </div>
           
           <div className="form-group-usuario">
@@ -52,6 +62,21 @@ export default function UsuarioForm() {
               onChange={handleChange}
               className="form-input-usuario"
             />
+            {/* Nota: Validación de contraseña se hace en backend */}
+          </div>
+          
+          {/* Campo email opcional para JWT */}
+          <div className="form-group-usuario">
+            <input
+              name="email"
+              type="email"
+              placeholder="Email (opcional)"
+              value={usuario.email || ''}
+              onChange={handleInputChange}
+              maxLength={100}
+              className={`form-input-usuario ${formErrors.email ? 'error' : ''}`}
+            />
+            {formErrors.email && <span className="error-message-usuario">{formErrors.email}</span>}
           </div>
         </div>
 
