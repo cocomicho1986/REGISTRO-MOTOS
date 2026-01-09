@@ -16,16 +16,94 @@ const Moto = sequelize.define('tabla_moto', {
   },
 
   // Datos descriptivos de la motocicleta
-  cedula: DataTypes.TEXT,     // Cédula del propietario o responsable
-  dominio: DataTypes.TEXT,    // Patente o matrícula de la moto (campo clave para búsqueda)
-  marca: DataTypes.TEXT,      // Marca del fabricante (ej: Honda, Yamaha)
-  modelo: DataTypes.TEXT,     // Modelo específico (ej: CBR600, R1)
-  tipo: DataTypes.TEXT,       // Tipo de motocicleta (ej: Deportiva, Naked, Custom)
-  uso: DataTypes.TEXT,        // Uso declarado (ej: Particular, Comercial)
-  cuadro: DataTypes.TEXT,     // Número de chasis o cuadro (VIN)
-  motor: DataTypes.TEXT,      // Número de serie del motor
-  cilindrada: DataTypes.TEXT, // Capacidad del motor en cc (ej: 600, 1000)
-  vence: DataTypes.TEXT       // Fecha de vencimiento de registro (almacenada como texto, ej: "2026-12-31")
+  cedula: {
+    type: DataTypes.STRING(20),     // Cédula del propietario o responsable (DNI máximo 8-9 dígitos + formato)
+    validate: {
+      len: {
+        args: [0, 20],
+        msg: 'La cédula no puede superar los 20 caracteres'
+      }
+    }
+  },
+  dominio: {
+    type: DataTypes.STRING(15),    // Patente o matrícula de la moto (campo clave para búsqueda)
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'El dominio es obligatorio'
+      },
+      len: {
+        args: [3, 15],
+        msg: 'El dominio debe tener entre 3 y 15 caracteres'
+      }
+    }
+  },
+  marca: {
+    type: DataTypes.STRING(50),      // Marca del fabricante (ej: Honda, Yamaha)
+    validate: {
+      len: {
+        args: [0, 50],
+        msg: 'La marca no puede superar los 50 caracteres'
+      }
+    }
+  },
+  modelo: {
+    type: DataTypes.STRING(50),     // Modelo específico (ej: CBR600, R1)
+    validate: {
+      len: {
+        args: [0, 50],
+        msg: 'El modelo no puede superar los 50 caracteres'
+      }
+    }
+  },
+  tipo: {
+    type: DataTypes.STRING(30),       // Tipo de motocicleta (ej: Deportiva, Naked, Custom)
+    validate: {
+      len: {
+        args: [0, 30],
+        msg: 'El tipo no puede superar los 30 caracteres'
+      }
+    }
+  },
+  uso: {
+    type: DataTypes.STRING(20),        // Uso declarado (ej: Particular, Comercial)
+    validate: {
+      len: {
+        args: [0, 20],
+        msg: 'El uso no puede superar los 20 caracteres'
+      }
+    }
+  },
+  cuadro: {
+    type: DataTypes.STRING(50),     // Número de chasis o cuadro (VIN - máximo 17 caracteres estándar)
+    validate: {
+      len: {
+        args: [0, 50],
+        msg: 'El número de cuadro no puede superar los 50 caracteres'
+      }
+    }
+  },
+  motor: {
+    type: DataTypes.STRING(50),      // Número de serie del motor
+    validate: {
+      len: {
+        args: [0, 50],
+        msg: 'El número de motor no puede superar los 50 caracteres'
+      }
+    }
+  },
+  cilindrada: {
+    type: DataTypes.STRING(10), // Capacidad del motor en cc (ej: 600, 1000)
+    validate: {
+      len: {
+        args: [0, 10],
+        msg: 'La cilindrada no puede superar los 10 caracteres'
+      }
+    }
+  },
+  vence: {
+    type: DataTypes.STRING(20)       // Fecha de vencimiento de registro (almacenada como texto, ej: "2026-12-31")
+  }
 }, {
   // Nombre exacto de la tabla en la base de datos (evita que Sequelize use su propia convención de nombres)
   tableName: 'tabla_moto',
