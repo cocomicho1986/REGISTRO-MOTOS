@@ -9,6 +9,7 @@ import MotoListAdmin from './components/MotoListAdmin';
 import MotoForm from './components/MotoForm';
 import UsuarioListAdmin from './components/UsuarioListAdmin';
 import UsuarioForm from './components/UsuarioForm';
+import './assets/styles/layout/app.css';
 
 // Ruta pública
 function PublicRoute({ children }) {
