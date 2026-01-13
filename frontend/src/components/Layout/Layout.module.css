@@ -3,8 +3,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: transparent !important; /* Asegurar transparencia */
 }
 
 .main {
   flex: 1;
+  background: transparent !important; /* Asegurar transparencia */
 }
