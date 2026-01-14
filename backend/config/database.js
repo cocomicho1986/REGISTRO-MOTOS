@@ -35,7 +35,7 @@ const sequelize = new Sequelize(
     // Configuración global aplicada a todos los modelos definidos con esta instancia.
     define: {
       // Desactiva los campos automáticos 'createdAt' y 'updatedAt'.
-      // Tus tablas no los tienen, así que los desactivamos para evitar errores.
+    
       timestamps: false
     },
     
