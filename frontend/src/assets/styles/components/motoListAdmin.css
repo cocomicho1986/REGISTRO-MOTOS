@@ -79,6 +79,7 @@
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-top: 16px;
+  padding-right: 12px;
 }
 
 .moto-table {
@@ -197,6 +198,12 @@
   .search-input {
     min-width: auto;
   }
+
+  /* Asegurar que la tabla no se vea afectada por el padding */
+.moto-table-container .moto-table {
+  width: calc(100% + 12px); /* ← Compensar el padding */
+  margin-right: -12px; /* ← Evitar scroll horizontal */
+}
 
   .moto-table th,
   .moto-table td {
