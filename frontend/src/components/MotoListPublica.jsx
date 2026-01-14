@@ -25,7 +25,7 @@ export default function MotoListPublica() {
 
   return (
     <div className="moto-list-publica-container">
-      <h2 className="moto-list-publica-title">🔍 Registro de Motos Robadas</h2>
+      <h2 className="moto-list-publica-title">Motos reclamadas</h2>
       <a href="/login" className="login-link">🔐 Iniciar sesión (modo administrador)</a>
       
       <div className="search-container-publica">

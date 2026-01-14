@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await logout();
-    window.location.href = '/'; // ← ¡ESTA ES LA LÍNEA CORREGIDA!
+    window.location.href = '/'; 
   };
 
   // Solo mostrar navbar si estamos en rutas de admin
@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div>
-        <h3 className="navbar-brand">🏍️ Registro de Motos</h3>
+        <h3 className="navbar-brand">Motos reclamadas 👀</h3>
         <div className="navbar-links">
           <button
             onClick={() => navigate('/admin/motos')}

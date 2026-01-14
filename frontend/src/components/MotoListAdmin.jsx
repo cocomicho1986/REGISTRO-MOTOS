@@ -24,7 +24,7 @@ export default function MotoListAdmin() {
       <Navbar />
       
       <div className="moto-list-header">
-        <h2 className="moto-list-title">🏍️ Gestión de Motos (Admin)</h2>
+        <h2 className="moto-list-title">Gestión de Motos (Admin)</h2>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <button
             onClick={resetearTablaMotos}

@@ -106,7 +106,7 @@ export default function MotoForm() {
             {formErrors.tipo && <span className="error-message">{formErrors.tipo}</span>}
           </div>
           
-          {/* ✅ CAMPO USO: ahora es un select */}
+        
           <div className="form-group">
             <label className="form-label">Uso:</label>
             <select
@@ -160,7 +160,7 @@ export default function MotoForm() {
             {formErrors.cilindrada && <span className="error-message">{formErrors.cilindrada}</span>}
           </div>
           
-          {/* ✅ CAMPO VENCE: manejo especial para "SIN VENCIMIENTO" */}
+          {/*CAMPO VENCE: manejo especial para "SIN VENCIMIENTO" */}
           <div className="form-group">
             <label className="form-label">Vence:</label>
             <input

@@ -94,6 +94,7 @@
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
   color: #1f2937; /* ✅ texto siempre oscuro y legible */
+  font-weight: bolder;
 }
 
 .moto-table th {

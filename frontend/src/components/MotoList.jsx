@@ -28,7 +28,7 @@ export default function MotoList() {
   return (
     <div className="moto-list-public-container">
       <Navbar />
-      <h2 className="moto-list-public-title">🔍 Lista de Motos</h2>
+      <h2 className="moto-list-public-title">Lista de Motos</h2>
       <a href="/login" className="login-link">🔐 Iniciar sesión (modo administrador)</a>
       
       <div className="search-container-publica">
