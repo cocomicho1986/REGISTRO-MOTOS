@@ -36,12 +36,12 @@ export default function MotoListPublica() {
           onChange={(e) => setDominio(e.target.value)}
           className="search-input-publica"
         />
-        <button
+        {/*<button
           onClick={() => {}}
           className="btn-buscar-publica"
         >
           Buscar
-        </button>
+        </button>*/}
       </div>
 
       <div className="moto-table-container">
