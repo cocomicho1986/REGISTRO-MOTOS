@@ -49,12 +49,12 @@ export default function MotoListAdmin() {
           onChange={(e) => setDominio(e.target.value)}
           className="search-input"
         />
-        <button
+        {/*<button
           onClick={() => {}}
           className="btn-buscar"
         >
           Buscar
-        </button>
+        </button>*/}
       </div>
 
       <div className="moto-table-container">
