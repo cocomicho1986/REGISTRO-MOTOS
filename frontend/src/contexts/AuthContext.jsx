@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('token');
         delete api.defaults.headers.common['Authorization'];
         api.defaults.withCredentials = true;
-        setUsuario({ id: res.data.usuario?.id, nombre: res.data.nombre });
+        setUsuario(res.data.usuario);
       }
       return res.data;
     }
