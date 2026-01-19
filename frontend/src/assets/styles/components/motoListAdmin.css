@@ -145,12 +145,12 @@
 }
 
 .btn-editar {
-  background-color: #f59e0b; /* amarillo más suave */
+  background-color: #27E7F5; /* amarillo más suave */
   color: white;
 }
 
 .btn-editar:hover {
-  background-color: #d97706;
+  background-color: #09BBC8;
 }
 
 .btn-borrar {
