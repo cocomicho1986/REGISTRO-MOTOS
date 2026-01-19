@@ -1,4 +1,3 @@
-// backend/middleware/jwtAuth.js
 const jwt = require('jsonwebtoken');
 
 // Usa la variable de entorno JWT_SECRET, o un valor por defecto en desarrollo
@@ -13,7 +12,7 @@ const requireAuth = (req, res, next) => {
     // Obtener el token del header Authorization
     const authHeader = req.headers.authorization;
     
-    if (!authHeader || !authRowHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: 'Token no proporcionado' });
     }
     
