@@ -1,0 +1,161 @@
+.profile-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.profile-info {
+  text-align: left;
+}
+
+.profile-info p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.profile-info strong {
+  color: #333;
+}
+
+.profile-loading {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 18px;
+  color: #666;
+}
+
+.profile-error {
+  color: #dc3545;
+  text-align: center;
+  margin: 50px 0;
+  font-weight: bold;
+}
+
+/* Estilos para el modo edición */
+.profile-edit-form {
+  text-align: left;
+}
+
+.form-group-profile {
+  margin-bottom: 20px;
+}
+
+.form-group-profile label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.profile-edit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.profile-save-btn,
+.profile-cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.profile-save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.profile-save-btn:hover:not(:disabled) {
+  background: #218838;
+}
+
+.profile-cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.profile-cancel-btn:hover:not(:disabled) {
+  background: #545b62;
+}
+
+/* Botones de acción en vista normal */
+.profile-action-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.profile-edit-btn,
+.profile-delete-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.profile-edit-btn {
+  background: #007bff;
+  color: white;
+}
+
+.profile-edit-btn:hover {
+  background: #0056b3;
+}
+
+.profile-delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.profile-delete-btn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.profile-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .profile-action-buttons,
+  .profile-edit-buttons {
+    flex-direction: column;
+  }
+  
+  .register-form-container,
+  .profile-container {
+    margin: 20px 15px;
+    padding: 20px;
+  }
+}

@@ -1,7 +1,6 @@
-// backend/routes/motoRoutes.js
 const express = require('express');
 const router = express.Router();
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth } = require('../middleware/jwtAuth'); // ← Cambiado a jwtAuth
 const motoController = require('../controllers/motoController');
 
 // Rutas públicas (solo lectura)

@@ -1,9 +1,10 @@
-// frontend/src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from "./hooks/useAuth";
 import Layout from './components/Layout/Layout'; 
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
+import ProfileView from './components/ProfileView';
 import MotoListPublica from './components/MotoListPublica';
 import MotoListAdmin from './components/MotoListAdmin';
 import MotoForm from './components/MotoForm';
@@ -94,10 +95,21 @@ function AppContent() {
             </PrivateRoute>
           } 
         />
+        
+        {/* Nueva ruta: Perfil del usuario */}
+        <Route 
+          path="/profile" 
+          element={
+            <PrivateRoute>
+              <ProfileView />
+            </PrivateRoute>
+          } 
+        />
       </Route>
       
-      {/* ❌ Login SIN Layout (sin footer) */}
+      {/* ❌ Login y Registro SIN Layout (sin footer) */}
       <Route path="/login" element={<LoginForm />} />
+      <Route path="/register" element={<RegisterForm />} />
       
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

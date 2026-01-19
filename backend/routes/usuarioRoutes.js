@@ -1,7 +1,6 @@
-// backend/routes/usuarioRoutes.js
 const express = require('express');
 const router = express.Router();
-const { requireAuth } = require('../middleware/auth');
+const { requireAuth } = require('../middleware/jwtAuth'); // ← Cambiado a jwtAuth
 const usuarioController = require('../controllers/usuarioController');
 
 // Listar todos los usuarios

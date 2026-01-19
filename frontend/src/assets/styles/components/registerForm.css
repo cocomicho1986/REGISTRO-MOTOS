@@ -1,0 +1,78 @@
+.register-form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-form-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.form-group-register {
+  margin-bottom: 20px;
+}
+
+.register-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.register-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.register-btn:hover {
+  background: #0056b3;
+}
+
+.register-error {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.register-success {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.register-login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-login-link a:hover {
+  text-decoration: underline;
+}

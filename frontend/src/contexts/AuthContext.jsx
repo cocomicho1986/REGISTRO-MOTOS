@@ -1,4 +1,3 @@
-// frontend/src/contexts/AuthContext.jsx
 import { useEffect, useState } from 'react';
 import api from '../services/api';
 import { AuthContext } from './AuthContextInstance';
@@ -13,7 +12,7 @@ export function AuthProvider({ children }) {
         // Primero intentar con JWT (más rápido)
         const token = localStorage.getItem('token');
         if (token) {
-          const res = await api.get('/auth/jwt/me');
+          const res = await api.get('/auth/profile');
           setUsuario(res.data.usuario || null);
           return;
         }
@@ -37,10 +36,10 @@ export function AuthProvider({ children }) {
     verificarAutenticacion();
   }, []);
 
-  const login = async (nombre, clave, usarJwt = false) => {
+  const login = async (nombre, clave, usarJwt = true) => {
     if (usarJwt) {
-      // Login con JWT
-      const res = await api.post('/auth/jwt/login', { nombre, clave });
+      // Login con JWT (ahora por defecto)
+      const res = await api.post('/auth/login', { nombre, clave });
       if (res.data.success && res.data.token) {
         localStorage.setItem('token', res.data.token);
         setUsuario(res.data.usuario);
@@ -51,8 +50,8 @@ export function AuthProvider({ children }) {
       }
       return res.data;
     } else {
-      // Login con sesiones tradicionales (comportamiento actual)
-      const res = await api.post('/auth/login', { nombre, clave });
+      // Login con sesiones tradicionales (mantenido para retrocompatibilidad)
+      const res = await api.post('/auth/login-sesion', { nombre, clave });
       if (res.data.success) {
         // Limpiar cualquier token JWT anterior
         localStorage.removeItem('token');
@@ -68,8 +67,7 @@ export function AuthProvider({ children }) {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        // Logout JWT: eliminar token del localStorage
-        await api.post('/auth/jwt/logout');
+        // Logout JWT: solo eliminar token del localStorage
         localStorage.removeItem('token');
         delete api.defaults.headers.common['Authorization'];
       } else {
