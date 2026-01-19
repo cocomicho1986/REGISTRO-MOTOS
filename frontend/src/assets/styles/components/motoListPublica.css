@@ -1,85 +1,152 @@
-/* Estilos para la lista pública de motos robadas */
+/* Estilos para la lista pública de motos robadas — Mejorado */
 .moto-list-publica-container {
-  padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-right: 12px;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .moto-list-publica-title {
-  color: #333;
+  color: #1f2937;
   margin-bottom: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .login-link {
   display: block;
   margin-bottom: 20px;
-  color: #007bff;
+  color: #3b82f6;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
 .login-link:hover {
+  color: #2563eb;
   text-decoration: underline;
 }
 
 .search-container-publica {
   margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .search-input-publica {
-  padding: 8px;
-  font-size: 16px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  flex: 1;
+  min-width: 220px;
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #1f2937;
 }
 
 .btn-buscar-publica {
-  padding: 8px 16px;
-  background-color: #007bff;
+  padding: 10px 20px;
+  background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  min-width: 100px;
+  transition: background-color 0.2s;
 }
 
 .btn-buscar-publica:hover {
-  background-color: #0069d9;
+  background-color: #2563eb;
+}
+
+/* Contenedor con scroll vertical */
+.moto-table-container-publica {
+  max-height: 60vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-top: 16px;
+  padding-right: 12px;
 }
 
 .moto-table-publica {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  font-size: 0.9375rem;
+  min-width: 700px;
 }
 
 .moto-table-publica th,
 .moto-table-publica td {
-  padding: 12px;
+  padding: 12px 14px;
   text-align: left;
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
   font-weight: bolder;
 }
 
 .moto-table-publica th {
-  background-color: #f8f9fa;
-  font-weight: bold;
+  background-color: #f9fafb;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.8125rem;
+  color: #4b5563;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
+/* ✅ Filas intercaladas (zebra-striped) */
+.moto-table-publica tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.moto-table-publica tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+/* Hover refinado */
 .moto-table-publica tbody tr:hover {
-  background-color: #f5f5f5;
-}
-
-/* Asegurar que la tabla no se vea afectada por el padding */
-.moto-table-container .moto-table {
-  width: calc(100% + 12px); /* ← Compensar el padding */
-  margin-right: -12px; /* ← Evitar scroll horizontal */
+  background-color: #f1f5f9 !important;
 }
 
 .table-empty-publica {
   text-align: center;
-  padding: 20px;
-  color: #6c757d;
+  padding: 28px;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .moto-list-publica-container {
+    padding: 16px;
+  }
+
+  .search-container-publica {
+    flex-direction: column;
+  }
+
+  .search-input-publica {
+    min-width: auto;
+  }
+
+  .moto-table-container-publica {
+    padding-right: 0;
+  }
+
+  .moto-table-publica {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .moto-table-publica th,
+  .moto-table-publica td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+  }
 }
