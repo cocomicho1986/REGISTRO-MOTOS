@@ -2,7 +2,7 @@
 // Modelo de Sequelize para la tabla 'tabla_usuario'.
 // Define la estructura de los usuarios y métodos seguros para manejar contraseñas.
 
-const { DataTypes } = require('sequelize');        // Tipos de datos para definir campos
+const { DataTypes, Op } = require('sequelize');        // Tipos de datos para definir campos + Op para operaciones
 const sequelize = require('../config/database');   // Conexión a la base de datos
 const bcrypt = require('bcrypt');                  // Librería para hashing seguro de contraseñas
 
@@ -96,6 +96,48 @@ Usuario.validarClave = async function(nombre, clavePlana) {
   
   // Si coincide, devuelve el objeto usuario; si no, devuelve null
   return esValida ? usuario : null;
+};
+
+/**
+ * Actualiza la información del usuario (nombre y email)
+ * @param {number} id - ID del usuario
+ * @param {string} nombre - Nuevo nombre
+ * @param {string|null} email - Nuevo email (opcional)
+ * @returns {Promise<Usuario>} - Usuario actualizado
+ */
+Usuario.actualizarPorId = async function(id, nombre, email = null) {
+  const usuario = await this.findByPk(id);
+  if (!usuario) {
+    throw new Error('Usuario no encontrado');
+  }
+  
+  // Validar que el nuevo nombre no esté en uso por otro usuario
+  const usuarioExistente = await this.findOne({ 
+    where: { nombre, id: { [Op.ne]: id } } 
+  });
+  if (usuarioExistente) {
+    throw new Error('El nombre de usuario ya está en uso');
+  }
+  
+  usuario.nombre = nombre;
+  usuario.email = email;
+  await usuario.save();
+  return usuario;
+};
+
+/**
+ * Elimina un usuario por su ID
+ * @param {number} id - ID del usuario
+ * @returns {Promise<boolean>} - true si se eliminó correctamente
+ */
+Usuario.eliminarPorId = async function(id) {
+  const usuario = await this.findByPk(id);
+  if (!usuario) {
+    throw new Error('Usuario no encontrado');
+  }
+  
+  await usuario.destroy();
+  return true;
 };
 
 // Exporta el modelo para que pueda ser usado en controladores, rutas, etc.
