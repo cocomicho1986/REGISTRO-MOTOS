@@ -52,9 +52,11 @@
 
 .usuario-table th,
 .usuario-table td {
-  padding: 8px;
+  padding: 12px 14px;
   text-align: left;
-  border: 1px solid #dee2e6;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937; /* ✅ texto siempre oscuro y legible */
+  font-weight: bolder;
 }
 
 .usuario-table th {
@@ -77,22 +79,24 @@
 }
 
 .btn-accion-usuario {
-  padding: 4px 8px;
+ padding: 6px 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.8rem;
-  margin-right: 5px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-right: 6px;
+  min-width: 70px;
 }
 
 .btn-editar-usuario {
-  background-color: #ffc107;
-  color: #212529;
+  background-color: #27E7F5;
+  color: white;
   font-weight: 500;
 }
 
 .btn-editar-usuario:hover {
-  background-color: #e0a800;
+  background-color: #09BBC8;
 }
 
 .btn-borrar-usuario {
