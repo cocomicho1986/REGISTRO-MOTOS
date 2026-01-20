@@ -10,6 +10,13 @@ export default function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+{/*
+Etapa 1: Inicio desde el formulario
+  
+El usuario ingresa "admin" y "1234" en LoginForm.jsx. Al hacer clic en "Entrar", 
+se ejecuta handleSubmit que llama al hook login(nombre, clave) del contexto de autenticación.
+Archivo: frontend/src/components/LoginForm.jsx --> Archivo: frontend/src/contexts/AuthContext.jsx
+*/}
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
