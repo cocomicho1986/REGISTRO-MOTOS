@@ -1,5 +1,13 @@
 // frontend/src/services/api.js
 import axios from 'axios';
+{/*
+Etapa 3: Configuración y envío de la solicitud HTTP
+  
+El archivo api.js tiene baseURL: '/api' y un interceptor que verifica si existe un token en localStorage.
+Como no hay token inicialmente, envía la solicitud sin autorización a POST 
+http://localhost:3001/api/auth/login con las credenciales en el cuerpo JSON.
+Archivo: frontend/src/services/api.js --> Archivo: backend/routes/authRoutes.js
+*/}
 
 const api = axios.create({
   baseURL: '/api',
