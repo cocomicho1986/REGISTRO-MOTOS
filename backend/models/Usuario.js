@@ -84,6 +84,14 @@ Usuario.crearConHash = async function(nombre, clavePlana, email = null) {
  * @param {string} clavePlana - Contraseña ingresada por el usuario.
  * @returns {Promise<Usuario|null>} - Devuelve el usuario si las credenciales son válidas, null si no.
  */
+{/*
+Etapa 5: Validación contra la base de datos
+
+En Usuario.js, validarClave ejecuta una consulta que busca al usuario "admin" y compara la contraseña ingresada 
+con el hash almacenado usando bcrypt.compare("1234", "$2b$10$hashed_password"), devolviendo true si coinciden.
+Archivo: backend/models/Usuario.js --> Archivo: backend/routes/authRoutes.js
+*/}
+
 Usuario.validarClave = async function(nombre, clavePlana) {
   // Busca al usuario por su nombre (mantener compatibilidad)
   const usuario = await this.findOne({ where: { nombre } });
