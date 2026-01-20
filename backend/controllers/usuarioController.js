@@ -38,13 +38,13 @@ exports.obtenerPorId = async (req, res) => {
  */
 exports.crear = async (req, res) => {
   try {
-    const { nombre, clave } = req.body;
+    const { nombre, clave, email } = req.body;
     
     if (!nombre || !clave) {
       return res.status(400).json({ error: 'Nombre y clave son requeridos' });
     }
     
-    const usuario = await Usuario.crearConHash(nombre, clave);
+    const usuario = await Usuario.crearConHash(nombre, clave, email || null);
     const { clave: _, ...usuarioSinClave } = usuario.toJSON();
     res.status(201).json(usuarioSinClave);
   } catch (error) {
@@ -59,14 +59,14 @@ exports.crear = async (req, res) => {
 exports.actualizar = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, clave } = req.body;
+    const { nombre, clave, email } = req.body;
     
     const usuarioExistente = await Usuario.findByPk(id);
     if (!usuarioExistente) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    const updateData = { nombre };
+    const updateData = { nombre, email: email || null };
     if (clave) {
       updateData.clave = await bcrypt.hash(clave, 10);
     }
