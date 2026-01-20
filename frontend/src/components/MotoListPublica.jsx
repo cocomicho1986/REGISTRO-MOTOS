@@ -1,3 +1,4 @@
+// frontend/src/components/MotoListPublica.jsx
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import '../assets/styles/components/motoListPublica.css';
@@ -48,34 +49,36 @@ export default function MotoListPublica() {
         {loading ? (
           <p style={{ padding: '20px', textAlign: 'center' }}>Cargando...</p>
         ) : (
-          <table className="moto-table-publica">
-            <thead>
-              <tr>
-                <th>Dominio</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Tipo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {motos.length > 0 ? (
-                motos.map(moto => (
-                  <tr key={moto.id}>
-                    <td>{moto.dominio}</td>
-                    <td>{moto.marca}</td>
-                    <td>{moto.modelo}</td>
-                    <td>{moto.tipo}</td>
-                  </tr>
-                ))
-              ) : (
+          <div className="moto-table-wrapper">
+            <table className="moto-table-publica">
+              <thead>
                 <tr>
-                  <td colSpan="4" className="table-empty-publica">
-                    No hay motos registradas.
-                  </td>
+                  <th>Dominio</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Tipo</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {motos.length > 0 ? (
+                  motos.map(moto => (
+                    <tr key={moto.id}>
+                      <td data-label="Dominio">{moto.dominio || '—'}</td>
+                      <td data-label="Marca">{moto.marca || '—'}</td>
+                      <td data-label="Modelo">{moto.modelo || '—'}</td>
+                      <td data-label="Tipo">{moto.tipo || '—'}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="table-empty-publica">
+                      No hay motos registradas.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
