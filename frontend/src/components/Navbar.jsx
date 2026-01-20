@@ -38,6 +38,12 @@ export default function Navbar() {
       </div>
       
       <div className="nav-user-info">
+{/*
+Etapa 9: Visualización en la interfaz de usuario
+
+El componente Navbar.jsx consume el contexto de autenticación mediante useAuth(), obteniendo el objeto usuario del estado global y mostrando "Bienvenido, admin" en la interfaz, completando el ciclo de autenticación visible para el usuario.
+Archivo: frontend/src/components/Navbar.jsx -->FIN
+*/}      
         <span>Bienvenido, <strong>{usuario.nombre}</strong></span>
         <button
           onClick={handleLogout}
