@@ -89,14 +89,16 @@ export default function MotoListAdmin() {
                         <button
                           onClick={() => handleEditar(moto.id)}
                           className="btn-accion btn-editar"
+                          title="Editar"
                         >
-                          Editar
+                          ✏️
                         </button>
                         <button
                           onClick={() => handleBorrar(moto.id)}
                           className="btn-accion btn-borrar"
+                          title="Borrar"
                         >
-                          Borrar
+                          🗑️
                         </button>
                       </td>
                     </tr>
