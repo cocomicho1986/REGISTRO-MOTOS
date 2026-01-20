@@ -1,3 +1,4 @@
+// frontend/src/components/MotoListAdmin.jsx
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import useMotos from '../hooks/useMotos';
@@ -61,53 +62,55 @@ export default function MotoListAdmin() {
         {loading ? (
           <p style={{ padding: '20px', textAlign: 'center' }}>Cargando...</p>
         ) : (
-          <table className="moto-table">
-            <thead>
-              <tr>
-                <th>Dominio</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Cédula</th>
-                <th>Uso</th>
-                <th>Vence</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {motos.length > 0 ? (
-                motos.map(moto => (
-                  <tr key={moto.id}>
-                    <td>{moto.dominio || '-'}</td>
-                    <td>{moto.marca || '-'}</td>
-                    <td>{moto.modelo || '-'}</td>
-                    <td>{moto.cedula || '-'}</td>
-                    <td>{moto.uso || '-'}</td>
-                    <td>{moto.vence || '-'}</td>
-                    <td>
-                      <button
-                        onClick={() => handleEditar(moto.id)}
-                        className="btn-accion btn-editar"
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => handleBorrar(moto.id)}
-                        className="btn-accion btn-borrar"
-                      >
-                        Borrar
-                      </button>
+          <div className="moto-table-wrapper">
+            <table className="moto-table">
+              <thead>
+                <tr>
+                  <th>Dominio</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Cédula</th>
+                  <th>Uso</th>
+                  <th>Vence</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {motos.length > 0 ? (
+                  motos.map(moto => (
+                    <tr key={moto.id}>
+                      <td data-label="Dominio">{moto.dominio || '—'}</td>
+                      <td data-label="Marca">{moto.marca || '—'}</td>
+                      <td data-label="Modelo">{moto.modelo || '—'}</td>
+                      <td data-label="Cédula">{moto.cedula || '—'}</td>
+                      <td data-label="Uso">{moto.uso || '—'}</td>
+                      <td data-label="Vence">{moto.vence || '—'}</td>
+                      <td data-label="Acciones">
+                        <button
+                          onClick={() => handleEditar(moto.id)}
+                          className="btn-accion btn-editar"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleBorrar(moto.id)}
+                          className="btn-accion btn-borrar"
+                        >
+                          Borrar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="table-empty">
+                      No hay motos registradas.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className="table-empty">
-                    No hay motos registradas.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
