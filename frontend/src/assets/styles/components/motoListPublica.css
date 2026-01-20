@@ -68,10 +68,9 @@
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-top: 16px;
-  padding-right: 12px;
-  /* Márgenes con dashboard vertical */
-  margin-left: 16px;
-  margin-right: 16px;
+  /* Márgenes con dashboard vertical - CORREGIDO */
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 /* Scroll horizontal suave solo cuando sea necesario */
@@ -79,6 +78,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
+  padding-right: 12px; /* Mover padding aquí */
 }
 
 .moto-table-publica {
@@ -135,13 +135,13 @@
 /* Responsive - Desktop: Scroll horizontal suave */
 @media (min-width: 769px) {
   .moto-table-container-publica {
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-left: 32px;
+    margin-right: 32px;
   }
   
   .moto-table-wrapper {
-    width: calc(100% + 12px);
-    margin-right: -12px;
+    width: 100%;
+    padding-right: 16px;
   }
 }
 
@@ -167,12 +167,13 @@
     overflow-y: visible;
     box-shadow: none;
     border-radius: 0;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .moto-table-wrapper {
     overflow-x: hidden;
+    padding-right: 0;
   }
 
   .moto-table-publica {
