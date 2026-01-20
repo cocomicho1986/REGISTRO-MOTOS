@@ -59,14 +59,16 @@ export default function UsuarioListAdmin() {
                         <button
                           onClick={() => handleEditar(usuario.id)}
                           className="btn-accion-usuario btn-editar-usuario"
+                          title="Editar"
                         >
-                          Editar
+                          ✏️
                         </button>
                         <button
                           onClick={() => handleBorrar(usuario.id, usuario.nombre)}
                           className="btn-accion-usuario btn-borrar-usuario"
+                          title="Borrar"
                         >
-                          Borrar
+                          🗑️
                         </button>
                       </td>
                     </tr>
