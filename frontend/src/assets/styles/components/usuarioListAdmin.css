@@ -42,9 +42,9 @@
   border: 1px solid #dee2e6;
   border-radius: 4px;
   margin-top: 10px;
-  /* Márgenes con dashboard */
-  margin-left: 16px;
-  margin-right: 16px;
+  /* Márgenes con dashboard - CORREGIDO */
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 /* Scroll horizontal suave solo cuando sea necesario */
@@ -52,6 +52,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
+  padding-right: 12px; /* Mover padding aquí */
 }
 
 .usuario-table {
@@ -90,21 +91,29 @@
   font-size: 0.9rem;
 }
 
+/* Botones de acción - VERSION MEJORADA */
 .btn-accion-usuario {
   padding: 6px 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px; /* Más redondeado */
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.8125rem; /* Más pequeño */
   font-weight: 600;
-  margin-right: 6px;
-  min-width: 70px;
+  margin: 0 4px; /* Menos margen */
+  min-width: 60px; /* Más compacto */
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn-accion-usuario:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 .btn-editar-usuario {
   background-color: #27E7F5;
-  color: white;
-  font-weight: 500;
+  color: #000;
+  font-weight: 600;
 }
 
 .btn-editar-usuario:hover {
@@ -114,7 +123,7 @@
 .btn-borrar-usuario {
   background-color: #dc3545;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .btn-borrar-usuario:hover {
@@ -124,13 +133,13 @@
 /* Responsive - Desktop */
 @media (min-width: 769px) {
   .usuario-table-container {
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-left: 32px;
+    margin-right: 32px;
   }
   
   .usuario-table-wrapper {
-    width: calc(100% + 12px);
-    margin-right: -12px;
+    width: 100%;
+    padding-right: 16px;
   }
 }
 
@@ -164,12 +173,13 @@
     overflow-y: visible;
     border: none;
     border-radius: 0;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .usuario-table-wrapper {
     overflow-x: hidden;
+    padding-right: 0;
   }
 
   .usuario-table {
@@ -211,13 +221,20 @@
   .usuario-table tbody tr td[data-label="Acciones"] {
     display: block;
     text-align: right;
+    padding-top: 12px !important;
+    border-top: 1px solid #dee2e6;
   }
   
-  .btn-accion-usuario {
-    min-width: auto;
-    width: 48%;
-    margin: 2px 0;
-    padding: 8px;
-    font-size: 0.85rem;
+  .usuario-table tbody tr td[data-label="Acciones"] .btn-accion-usuario {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0 6px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 }
