@@ -44,7 +44,7 @@ export default function MotoListPublica() {
         </button>*/}
       </div>
 
-      <div className="moto-table-container">
+      <div className="moto-table-container-publica">
         {loading ? (
           <p style={{ padding: '20px', textAlign: 'center' }}>Cargando...</p>
         ) : (
