@@ -1,4 +1,4 @@
-/* Estilos para la lista de usuarios del admin - VERSIÓN COMPACTA */
+/* Estilos para la lista de usuarios del admin - VERSIÓN COMPACTA Y RESPONSIVE */
 .usuario-list-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -79,7 +79,7 @@
 }
 
 .btn-accion-usuario {
- padding: 6px 12px;
+  padding: 6px 12px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -107,4 +107,85 @@
 
 .btn-borrar-usuario:hover {
   background-color: #c82333;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .usuario-list-container {
+    padding: 12px;
+  }
+
+  .usuario-list-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .usuario-list-title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .btn-agregar-usuario {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+  }
+
+  .usuario-table-container {
+    max-height: none;
+    overflow-y: visible;
+    border: none;
+    border-radius: 0;
+  }
+
+  .usuario-table {
+    display: block;
+    width: 100%;
+  }
+  
+  .usuario-table thead {
+    display: none;
+  }
+  
+  .usuario-table tbody tr {
+    display: block;
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background-color: #ffffff;
+  }
+  
+  .usuario-table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0 !important;
+    border: none !important;
+    font-size: 0.9rem;
+  }
+  
+  /* Mostrar etiquetas en móvil */
+  .usuario-table tbody tr td:nth-child(1):before { content: "ID: "; font-weight: 600; color: #495057; }
+  .usuario-table tbody tr td:nth-child(2):before { content: "Nombre: "; font-weight: 600; color: #495057; }
+  .usuario-table tbody tr td:nth-child(3):before { 
+    content: "Acciones: "; 
+    font-weight: 600; 
+    color: #495057; 
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .usuario-table tbody tr td:nth-child(3) {
+    display: block;
+    text-align: right;
+  }
+  
+  .btn-accion-usuario {
+    min-width: auto;
+    width: 48%;
+    margin: 2px 0;
+    padding: 8px;
+    font-size: 0.85rem;
+  }
 }
