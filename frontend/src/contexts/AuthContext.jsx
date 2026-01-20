@@ -39,8 +39,23 @@ export function AuthProvider({ children }) {
   const login = async (nombre, clave, usarJwt = true) => {
     if (usarJwt) {
       // Login con JWT (ahora por defecto)
+{/*
+Etapa 2: Procesamiento en el contexto de autenticación
+
+En AuthContext.jsx, la función login recibe los parámetros y envía una solicitud POST a /auth/login 
+con las credenciales mediante el cliente HTTP api.js. Si la respuesta es exitosa, guarda el token 
+en localStorage, actualiza el estado global y configura axios para futuras solicitudes.
+Archivo: frontend/src/contexts/AuthContext.jsx --> Archivo: frontend/src/services/api.js
+*/}
       const res = await api.post('/auth/login', { nombre, clave });
       if (res.data.success && res.data.token) {
+{/*
+Etapa 8: Recepción y actualización del estado en el frontend
+El cliente Axios recibe la respuesta como res.data. En AuthContext.jsx, se extrae el token y los datos del usuario, 
+se guarda el token en localStorage, se actualiza el estado global con setUsuario() y se configura axios para incluir el
+token en futuras solicitudes.
+Archivo: frontend/src/contexts/AuthContext.jsx --> Archivo: frontend/src/components/Navbar.jsx
+*/}        
         localStorage.setItem('token', res.data.token);
         setUsuario(res.data.usuario);
         
