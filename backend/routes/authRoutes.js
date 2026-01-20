@@ -63,6 +63,15 @@ router.post('/register', async (req, res) => {
 // 👉 RUTA: Login con JWT (reemplaza el login anterior pero mantiene retrocompatibilidad)
 router.post('/login', async (req, res) => {
   try {
+{/*
+Etapa 4: Recepción y procesamiento en el backend
+
+El servidor Express recibe la solicitud, convierte el cuerpo JSON en req.body = { nombre: "admin", clave: "1234" } 
+mediante express.json(), y la ruta POST /auth/login en authRoutes.js pasa estos valores al método 
+Usuario.validarClave(nombre, clave).
+Archivo: backend/routes/authRoutes.js --> Archivo: backend/models/Usuario.js
+ */ }
+
     const { nombre, clave } = req.body;
     
     if (!nombre || !clave) {
@@ -73,7 +82,21 @@ router.post('/login', async (req, res) => {
     
     if (usuario) {
       // Generar token JWT
+{/*
+Etapa 6: Generación de JWT y preparación de respuesta
+
+Si la validación es exitosa, authRoutes.js genera un token JWT y prepara la respuesta excluyendo la propiedad sensible 
+clave, construyendo un objeto limpio con success, token y datos del usuario.
+Archivo: backend/routes/authRoutes.js --> Archivo: backend/routes/authRoutes.js 
+*/}
       const token = generateToken(usuario);
+{/*
+Etapa 7: Envío de JWT y respuesta al navegador
+
+El servidor responde únicamente con el token JWT y los datos del usuario. Al ser un sistema stateless, 
+no se almacena ninguna sesión en el servidor, lo que mejora la escalabilidad y seguridad.
+Archivo: backend/routes/authRoutes.js --> Archivo: frontend/src/contexts/AuthContext.jsx
+*/}      
       
       return res.json({ 
         success: true,
