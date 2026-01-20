@@ -119,8 +119,8 @@ async function initDatabase() {
     const bcrypt = require('bcrypt');
 
     if (!adminUser) {
-      await Usuario.crearConHash('admin', '1234');
-      console.log('🔑 Usuario "admin" creado con contraseña hasheada.');
+      await Usuario.crearConHash('admin', '1234', 'admin@gmail.com');
+      console.log('🔑 Usuario "admin" creado con contraseña hasheada y email.');
     } else {
       const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
                            adminUser.clave.startsWith('$2a$') || 
