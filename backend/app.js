@@ -8,7 +8,7 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 
 const app = express();
-app.set('trust proxy', 1); // ← ¡Clave para Render! Confía en el proxy inverso
+app.set('trust proxy', 1); // ←  Confía en el proxy inverso, para produccion
 
 // ========================================
 // CONFIGURACIÓN BASADA EN VARIABLES DE ENTORNO
@@ -115,23 +115,29 @@ async function initDatabase() {
 
     await sequelize.sync({ force: false });
 
-    const adminUser = await Usuario.findOne({ where: { nombre: 'admin' } });
+    const anyUser = await Usuario.findOne();
     const bcrypt = require('bcrypt');
 
-    if (!adminUser) {
+    if (!anyUser) {
       await Usuario.crearConHash('admin', '1234', 'admin@gmail.com');
       console.log('🔑 Usuario "admin" creado con contraseña hasheada y email.');
     } else {
-      const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
-                           adminUser.clave.startsWith('$2a$') || 
-                           adminUser.clave.startsWith('$2y$');
+      const adminUser = await Usuario.findOne({ where: { nombre: 'admin' } });
       
-      if (!esHashBcrypt) {
-        const nuevoHash = await bcrypt.hash('1234', 10);
-        await Usuario.update({ clave: nuevoHash }, { where: { id: adminUser.id } });
-        console.log('🔑 Contraseña del usuario "admin" actualizada a hash seguro.');
+      if (adminUser) {
+        const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
+                             adminUser.clave.startsWith('$2a$') || 
+                             adminUser.clave.startsWith('$2y$');
+        
+        if (!esHashBcrypt) {
+          const nuevoHash = await bcrypt.hash('1234', 10);
+          await Usuario.update({ clave: nuevoHash }, { where: { id: adminUser.id } });
+          console.log('🔑 Contraseña del usuario "admin" actualizada a hash seguro.');
+        } else {
+          console.log('👤 Usuario "admin" ya existe con contraseña hasheada.');
+        }
       } else {
-        console.log('👤 Usuario "admin" ya existe con contraseña hasheada.');
+        console.log('👤 Tabla de usuarios ya contiene datos. No se creará el usuario "admin".');
       }
     }
 
