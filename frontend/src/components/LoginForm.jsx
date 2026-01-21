@@ -30,7 +30,7 @@ Archivo: frontend/src/components/LoginForm.jsx --> Archivo: frontend/src/context
 
   return (
     <div className="login-form-container">
-      <h2 className="login-form-title">🔐 Iniciar Sesión</h2>
+      <h2 className="login-form-title">Acceso</h2>
       {error && <p className="login-error">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group-login">
