@@ -1,111 +1,153 @@
-/* Estilos para el formulario de login */
+/* Estilos para el formulario de login - Corregido y elegante */
 .login-form-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 360px;
+  margin: 70px auto 40px auto;
+  padding: 32px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 231, 235, 0.6);
+  margin-left: 32px;
+  margin-right: auto;
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .login-form-container {
+    margin-left: 40px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-form-container {
+    margin-left: 24px;
+    max-width: 340px;
+    padding: 28px;
+  }
 }
 
 .login-form-title {
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 32px;
+  color: #111827;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  /* Título elegante sin emoji */
 }
 
 .login-error {
-  color: #dc3545;
+  color: #dc2626;
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background-color: #fee2e2;
+  font-family: inherit;
 }
 
 .form-group-login {
-  margin-bottom: 15px;
+  margin-bottom: 22px;
 }
 
 .login-input {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 16px 18px; /* Reducido para evitar overflow */
+  font-size: 1.05rem;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background-color: #f9fafb;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #111827;
+  font-weight: 500;
+  /* Asegurar que no se salga */
   box-sizing: border-box;
+  margin: 0;
 }
 
 .login-input:focus {
   outline: none;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  border-color: #10b981;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .login-btn {
   width: 100%;
-  padding: 12px;
-  background-color: #28a745;
+  padding: 16px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  /* Asegurar que no se salga */
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .login-btn:hover {
-  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 .login-btn:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
 }
 
 .login-info {
-  margin-top: 15px;
+  margin-top: 28px;
   text-align: center;
-  color: #666;
-  font-size: 14px;
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.5;
 }
 
 .login-info strong {
-  color: #333;
+  color: #111827;
+  font-weight: 600;
 }
 
-/* Responsive - Tablet y Mobile */
+/* Mobile */
 @media (max-width: 767px) {
   .login-form-container {
-    margin: 30px 16px;
-    padding: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 28px;
+    margin-top: 50px;
   }
   
   .login-form-title {
-    font-size: 1.3rem;
-    margin-bottom: 16px;
+    font-size: 1.4rem;
+    margin-bottom: 28px;
   }
   
   .login-input {
-    font-size: 16px; /* Evita zoom en iOS */
-    padding: 12px;
+    font-size: 1.1rem;
+    padding: 16px 18px;
   }
   
   .login-btn {
-    padding: 14px;
-    font-size: 16px;
-  }
-  
-  .login-info {
-    font-size: 13px;
-  }
-}
-
-/* Responsive - Tablet */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .login-form-container {
-    margin: 40px auto;
-    padding: 18px;
-    max-width: 380px;
+    padding: 16px;
+    font-size: 1.15rem;
   }
 }
