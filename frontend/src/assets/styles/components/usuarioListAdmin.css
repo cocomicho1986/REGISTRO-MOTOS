@@ -130,8 +130,8 @@
   background-color: #c82333;
 }
 
-/* Responsive - Desktop */
-@media (min-width: 769px) {
+/* Responsive - Desktop (laptops y monitores) */
+@media (min-width: 1024px) {
   .usuario-table-container {
     margin-left: 32px;
     margin-right: 32px;
@@ -143,8 +143,35 @@
   }
 }
 
-/* Responsive - Mobile */
-@media (max-width: 768px) {
+/* Responsive - Tablet (iPad, Galaxy Tab, etc.) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .usuario-list-container {
+    padding: 14px;
+  }
+  
+  .usuario-table-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .usuario-table-wrapper {
+    padding-right: 12px;
+  }
+  
+  .usuario-table {
+    font-size: 0.8125rem;
+    min-width: 480px;
+  }
+  
+  .btn-accion-usuario {
+    font-size: 0.75rem;
+    min-width: 55px;
+    padding: 5px 10px;
+  }
+}
+
+/* Responsive - Mobile (todos los smartphones) */
+@media (max-width: 767px) {
   .usuario-list-container {
     padding: 12px;
     padding-left: 8px;
