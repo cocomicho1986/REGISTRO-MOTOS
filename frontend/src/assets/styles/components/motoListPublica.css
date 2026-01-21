@@ -132,8 +132,8 @@
   font-style: italic;
 }
 
-/* Responsive - Desktop: Scroll horizontal suave */
-@media (min-width: 769px) {
+/* Responsive - Desktop (laptops y monitores) */
+@media (min-width: 1024px) {
   .moto-table-container-publica {
     margin-left: 32px;
     margin-right: 32px;
@@ -145,8 +145,29 @@
   }
 }
 
-/* Responsive - Mobile: Tarjetas en lugar de tabla */
-@media (max-width: 768px) {
+/* Responsive - Tablet (iPad, Galaxy Tab, etc.) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .moto-list-publica-container {
+    padding: 18px;
+  }
+  
+  .moto-table-container-publica {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .moto-table-wrapper {
+    padding-right: 12px;
+  }
+  
+  .moto-table-publica {
+    font-size: 0.875rem;
+    min-width: 450px;
+  }
+}
+
+/* Responsive - Mobile (todos los smartphones) */
+@media (max-width: 767px) {
   .moto-list-publica-container {
     padding: 16px;
     padding-left: 8px;
