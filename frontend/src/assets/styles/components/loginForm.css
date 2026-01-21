@@ -73,3 +73,39 @@
 .login-info strong {
   color: #333;
 }
+
+/* Responsive - Tablet y Mobile */
+@media (max-width: 767px) {
+  .login-form-container {
+    margin: 30px 16px;
+    padding: 16px;
+  }
+  
+  .login-form-title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+  
+  .login-input {
+    font-size: 16px; /* Evita zoom en iOS */
+    padding: 12px;
+  }
+  
+  .login-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .login-info {
+    font-size: 13px;
+  }
+}
+
+/* Responsive - Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-form-container {
+    margin: 40px auto;
+    padding: 18px;
+    max-width: 380px;
+  }
+}
