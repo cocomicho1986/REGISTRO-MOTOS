@@ -200,8 +200,8 @@
   background-color: #dc2626;
 }
 
-/* Responsive - Desktop: Scroll horizontal suave */
-@media (min-width: 769px) {
+/* Responsive - Desktop (laptops y monitores) */
+@media (min-width: 1024px) {
   .moto-table-container {
     margin-left: 32px;
     margin-right: 32px;
@@ -213,8 +213,35 @@
   }
 }
 
-/* Responsive - Mobile: Tarjetas en lugar de tabla */
-@media (max-width: 768px) {
+/* Responsive - Tablet (iPad, Galaxy Tab, etc.) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .moto-list-container {
+    padding: 18px;
+  }
+  
+  .moto-table-container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .moto-table-wrapper {
+    padding-right: 12px;
+  }
+  
+  .moto-table {
+    font-size: 0.875rem;
+    min-width: 550px;
+  }
+  
+  .btn-accion {
+    font-size: 0.75rem;
+    min-width: 55px;
+    padding: 5px 10px;
+  }
+}
+
+/* Responsive - Mobile (todos los smartphones) */
+@media (max-width: 767px) {
   .moto-list-container {
     padding: 16px;
     padding-left: 8px;
