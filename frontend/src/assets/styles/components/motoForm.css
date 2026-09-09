@@ -1,137 +1,78 @@
-/* Estilos para el formulario de motos - VERSIÓN COMPACTA */
-.moto-form-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* ========================================== */
+/* ESTILOS PARA EL NUEVO CAMPO DE IMAGEN      */
+/* ========================================== */
+
+/* Hace que el grupo de la imagen ocupe todo el ancho del formulario (ambas columnas) */
+.image-group {
+  grid-column: 1 / -1;
+  margin-top: 8px; /* Un pequeño respiro visual respecto al campo anterior */
 }
 
-.moto-form-title {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #495057;
-  font-size: 1.5rem;
-}
-
-/* Diseño en dos columnas para pantallas grandes */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-@media (min-width: 768px) {
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.form-group {
-  margin-bottom: 0; /* Eliminado el margen inferior */
-}
-
-.form-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #495057;
-  font-size: 0.875rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 6px 8px; /* Más compacto */
-  font-size: 0.9rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
-
-/* ✅ ESTILOS PARA INPUTS CON ERROR */
-.form-input.error {
-  border-color: #dc3545 !important;
-  background-color: #fff5f5;
-}
-
-/* ✅ ESTILOS PARA MENSAJES DE ERROR */
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
-  font-weight: 500;
-}
-
-.form-error {
-  color: #dc3545;
-  text-align: center;
-  margin-bottom: 15px;
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.btn-submit, .btn-cancel {
-  padding: 8px 16px; /* Más compacto */
-  border: none;
-  border-radius: 4px;
+/* Estilo para el input de archivo para que combine con los otros .form-input */
+input[type="file"].form-input {
+  padding: 4px;
+  background-color: #f8f9fa;
   cursor: pointer;
-  font-size: 0.9rem;
+}
+
+input[type="file"].form-input::file-selector-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  background-color: #e9ecef;
+  color: #495057;
   font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.2s ease;
+}
+
+input[type="file"].form-input::file-selector-button:hover {
+  background-color: #dee2e6;
+}
+
+/* Contenedor de la vista previa y el botón de eliminar */
+.image-preview-container {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: #f8f9fa; /* Mismo fondo sutil que el input file */
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px dashed #ced4da; /* Borde punteado para indicar que es un área de imagen */
+}
+
+/* La imagen de vista previa en sí */
+.image-preview {
+  max-width: 100%;
+  max-height: 250px; /* Limita la altura para que no rompa el layout si la imagen es gigante */
+  object-fit: contain; /* Muestra la imagen completa sin deformarla */
+  border-radius: 4px; /* Coincide con el border-radius de los inputs */
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+}
+
+/* Botón para eliminar la imagen (usa los colores de error de tu sistema) */
+.btn-remove-image {
+  background-color: #fff5f5; /* Mismo fondo rojo pálido que usas en .form-input.error */
+  color: #dc3545;            /* Mismo color de texto de error */
+  border: 1px solid #f5c2c7; /* Borde rojo suave */
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.btn-submit {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-submit:hover:not(:disabled) {
-  background-color: #218838;
-  transform: translateY(-1px);
-}
-
-.btn-submit:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-cancel {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-cancel:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-}
-
-.loading-message {
-  text-align: center;
-  padding: 30px; /* Más compacto */
-  color: #6c757d;
-  font-style: italic;
-  font-size: 0.9rem;
-}
-
-/* Ajustes específicos para campos de fecha */
-input[type="date"] {
-  line-height: 1.2;
-  padding: 6px 8px;
+.btn-remove-image:hover {
+  background-color: #f8d7da;
+  border-color: #f1aeb5;
+  transform: translateY(-1px); /* Mismo efecto hover que tus botones submit/cancel */
 }

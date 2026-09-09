@@ -1,35 +1,36 @@
+// frontend/src/hooks/useMotoForm.js
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 
-// Función de validación reutilizable
-const validateField = (fieldName, value) => {
+// Función de validación reutilizable (Renombrada para evitar conflicto de nombres)
+const validateSingleField = (fieldName, value) => {
   switch (fieldName) {
     case 'dominio':
-      if (!value.trim()) return 'El dominio es obligatorio';
+      if (!value || !value.trim()) return 'El dominio es obligatorio';
       if (value.length < 3) return 'El dominio debe tener al menos 3 caracteres';
       if (value.length > 15) return 'El dominio no puede superar los 15 caracteres';
       return '';
     case 'cedula':
-      if (value.length > 20) return 'La cédula no puede superar los 20 caracteres';
+      if (value && value.length > 20) return 'La cédula no puede superar los 20 caracteres';
       return '';
     case 'marca':
-      if (value.length > 50) return 'La marca no puede superar los 50 caracteres';
+      if (value && value.length > 50) return 'La marca no puede superar los 50 caracteres';
       return '';
     case 'modelo':
-      if (value.length > 50) return 'El modelo no puede superar los 50 caracteres';
+      if (value && value.length > 50) return 'El modelo no puede superar los 50 caracteres';
       return '';
     case 'tipo':
-      if (value.length > 30) return 'El tipo no puede superar los 30 caracteres';
+      if (value && value.length > 30) return 'El tipo no puede superar los 30 caracteres';
       return '';
     case 'cuadro':
-      if (value.length > 50) return 'El número de cuadro no puede superar los 50 caracteres';
+      if (value && value.length > 50) return 'El número de cuadro no puede superar los 50 caracteres';
       return '';
     case 'motor':
-      if (value.length > 50) return 'El número de motor no puede superar los 50 caracteres';
+      if (value && value.length > 50) return 'El número de motor no puede superar los 50 caracteres';
       return '';
     case 'cilindrada':
-      if (value.length > 10) return 'La cilindrada no puede superar los 10 caracteres';
+      if (value && value.length > 10) return 'La cilindrada no puede superar los 10 caracteres';
       return '';
     default:
       return '';
@@ -40,8 +41,11 @@ const validateField = (fieldName, value) => {
 const validateForm = (moto) => {
   const errors = {};
   Object.keys(moto).forEach(field => {
-    const error = validateField(field, moto[field]);
-    if (error) errors[field] = error;
+    // Ignoramos la validación de 'imagen' porque es opcional
+    if (field !== 'imagen') {
+      const error = validateSingleField(field, moto[field]);
+      if (error) errors[field] = error;
+    }
   });
   return errors;
 };
@@ -57,8 +61,10 @@ export default function useMotoForm() {
     cuadro: '',
     motor: '',
     cilindrada: '',
-    vence: 'SIN VENCIMIENTO'  // ← Valor por defecto
+    vence: 'SIN VENCIMIENTO', // ← Valor por defecto
+    imagen: null              // ← NUEVO: Campo para la imagen (Base64)
   });
+  
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
   const [error, setError] = useState('');
@@ -73,11 +79,22 @@ export default function useMotoForm() {
         try {
           const res = await api.get(`/motos/${id}`);
           if (res.data) {
-            // Asegurar valores por defecto si los campos están vacíos
+            // Manejo seguro de la imagen: si viene como Buffer desde Sequelize, lo convertimos a Base64 para la vista previa
+            let imagenPreview = null;
+            if (res.data.imagen) {
+              if (typeof res.data.imagen === 'string') {
+                imagenPreview = res.data.imagen;
+              } else {
+                // Si es un objeto/buffer, lo convertimos
+                imagenPreview = `data:image/jpeg;base64,${Buffer.from(res.data.imagen).toString('base64')}`;
+              }
+            }
+
             const datosConDefaults = {
               ...res.data,
               uso: res.data.uso || 'Privado',
-              vence: res.data.vence || 'SIN VENCIMIENTO'
+              vence: res.data.vence || 'SIN VENCIMIENTO',
+              imagen: imagenPreview
             };
             setMoto(datosConDefaults);
           } else {
@@ -95,19 +112,40 @@ export default function useMotoForm() {
   }, [id, navigate]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setMoto(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, files } = e.target;
     
-    // Limpiar error del campo cuando el usuario empieza a escribir
+    // Si el campo es un archivo (imagen), lo convertimos a Base64
+    if (type === 'file' && files && files[0]) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMoto(prev => ({ ...prev, [name]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Comportamiento normal para campos de texto
+      setMoto(prev => ({ ...prev, [name]: value }));
+    }
+    
+    // Limpiar error del campo cuando el usuario empieza a escribir/cambiar
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  const validateField = (fieldName, value) => {
-    const error = validateField(fieldName, value);
+  // Función dedicada para validar y establecer el error de un campo específico
+  const handleFieldValidation = (fieldName, value) => {
+    const error = validateSingleField(fieldName, value);
     setFormErrors(prev => ({ ...prev, [fieldName]: error }));
     return error;
+  };
+
+  // NUEVO: Función para eliminar la imagen seleccionada o existente
+  const handleRemoveImage = () => {
+    setMoto(prev => ({ ...prev, imagen: null }));
+    // Opcional: resetear el valor del input file en el DOM si se pasa la referencia
+    const fileInput = document.querySelector('input[name="imagen"]');
+    if (fileInput) fileInput.value = '';
   };
 
   const handleSubmit = async (e) => {
@@ -120,7 +158,6 @@ export default function useMotoForm() {
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       setLoading(false);
-      // Enfocar el primer campo con error
       const firstErrorField = Object.keys(errors)[0];
       document.querySelector(`[name="${firstErrorField}"]`)?.focus();
       return;
@@ -157,9 +194,10 @@ export default function useMotoForm() {
     error,
     id,
     handleChange,
+    handleRemoveImage, // ← Exportado para usar en el formulario
     handleSubmit,
     handleCancel,
     formErrors,
-    validateField
+    handleFieldValidation // ← Exportado con el nombre corregido
   };
 }

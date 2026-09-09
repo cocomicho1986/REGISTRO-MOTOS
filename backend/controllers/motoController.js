@@ -1,83 +1,108 @@
-// controllers/motoController.js
-// Controlador para gestionar todas las operaciones relacionadas con motocicletas.
-// Separa la lógica de negocio de las rutas, siguiendo el patrón MVC (Modelo-Vista-Controlador).
-// Contiene acciones para vistas públicas y administrativas.
-// ⚠️ Actualizado para API REST: devuelve JSON, no renderiza vistas.
-
+// backend/controllers/motoController.js
 const { Op } = require('sequelize');
 const { Moto } = require('../models');
-const sequelize = require('../config/database'); // ← Añadido para TRUNCATE
+const sequelize = require('../config/database');
 
-/**
- * Obtiene la lista pública de motos (solo lectura).
- * Incluye un buscador por dominio (búsqueda parcial).
- * 
- * @param {Object} req - Solicitud HTTP (contiene query params como 'dominio').
- * @param {Object} res - Respuesta HTTP (devuelve JSON con la lista de motos).
- */
+const procesarImagen = (moto) => {
+  if (!moto) return null;
+  const motoObj = moto.toJSON ? moto.toJSON() : { ...moto };
+  
+  if (motoObj.imagen) {
+    console.log("🔍 DEBUG BACKEND - Tipo de dato de imagen:", typeof motoObj.imagen);
+    
+    // Caso 1: Ya es un string base64 completo
+    if (typeof motoObj.imagen === 'string' && motoObj.imagen.startsWith('data:image')) {
+      console.log("✅ CASO 1: Ya es base64 completo. Se envía tal cual.");
+      return motoObj;
+    }
+    
+    // Caso 2: Es un objeto Buffer serializado como JSON
+    if (typeof motoObj.imagen === 'object' && motoObj.imagen.type === 'Buffer' && Array.isArray(motoObj.imagen.data)) {
+      console.log("✅ CASO 2: Es objeto Buffer serializado. Convirtiendo...");
+      const buffer = Buffer.from(motoObj.imagen.data);
+      const str = buffer.toString('utf8');
+      
+      // Si el contenido del Buffer ya es un string Base64 válido, lo usamos directamente
+      if (str.startsWith('data:image')) {
+        console.log("✅ El Buffer contiene un string Base64 válido. Usándolo directamente.");
+        motoObj.imagen = str;
+      } else {
+        motoObj.imagen = `data:image/jpeg;base64,${buffer.toString('base64')}`;
+      }
+      return motoObj;
+    }
+
+    // Caso 3: Es un Buffer nativo de Node.js
+    if (Buffer.isBuffer(motoObj.imagen)) {
+      console.log("✅ CASO 3: Es Buffer nativo. Convirtiendo...");
+      const str = motoObj.imagen.toString('utf8');
+      
+      // Si el contenido del Buffer ya es un string Base64 válido, lo usamos directamente
+      if (str.startsWith('data:image')) {
+        console.log("✅ El Buffer contiene un string Base64 válido. Usándolo directamente.");
+        motoObj.imagen = str;
+      } else {
+        motoObj.imagen = `data:image/jpeg;base64,${motoObj.imagen.toString('base64')}`;
+      }
+      return motoObj;
+    }
+    
+    // Caso 4: Es un string pero sin el prefijo data:image
+    if (typeof motoObj.imagen === 'string') {
+      console.log("✅ CASO 4: Es string sin prefijo. Agregando prefijo...");
+      motoObj.imagen = `data:image/jpeg;base64,${motoObj.imagen}`;
+      return motoObj;
+    }
+
+    console.log("⚠️ DEBUG BACKEND - Formato NO reconocido. Se envía tal cual:", motoObj.imagen);
+  }
+  
+  return motoObj;
+};
+
 exports.listarPublica = async (req, res) => {
   try {
     const { dominio } = req.query;
     const where = dominio ? { dominio: { [Op.like]: `%${dominio}%` } } : {};
     const motos = await Moto.findAll({ where });
-    res.json({ motos });
+    const motosProcesadas = motos.map(procesarImagen);
+    res.json({ motos: motosProcesadas });
   } catch (error) {
     console.error('Error en listarPublica:', error);
     res.status(500).json({ error: 'Error al obtener la lista de motos' });
   }
 };
 
-/**
- * Obtiene la lista de motos para el panel de administración.
- * Incluye el mismo buscador por dominio que la vista pública.
- * 
- * @param {Object} req - Solicitud HTTP.
- * @param {Object} res - Respuesta HTTP (devuelve JSON con la lista de motos).
- */
 exports.listarAdmin = async (req, res) => {
   try {
     const { dominio } = req.query;
     const where = dominio ? { dominio: { [Op.like]: `%${dominio}%` } } : {};
     const motos = await Moto.findAll({ where });
-    res.json({ motos });
+    const motosProcesadas = motos.map(procesarImagen);
+    res.json({ motos: motosProcesadas });
   } catch (error) {
     console.error('Error en listarAdmin:', error);
     res.status(500).json({ error: 'Error al obtener la lista de motos' });
   }
 };
 
-/**
- * Crea una nueva motocicleta en la base de datos.
- * Usa los datos del cuerpo de la solicitud (req.body).
- * 
- * ⚠️ Nota: En producción, se recomienda validar y sanitizar req.body antes de guardar.
- * 
- * @param {Object} req - Solicitud HTTP (req.body contiene los datos de la moto).
- * @param {Object} res - Respuesta HTTP (devuelve la moto creada o un error).
- */
 exports.crear = async (req, res) => {
   try {
     const moto = await Moto.create(req.body);
-    res.status(201).json(moto); // 201 = Created
+    res.status(201).json(procesarImagen(moto)); 
   } catch (error) {
     console.error('Error en crear moto:', error);
     res.status(400).json({ error: 'Error al crear la motocicleta' });
   }
 };
 
-/**
- * Actualiza una motocicleta existente por su ID.
- * 
- * @param {Object} req - Solicitud HTTP (req.params.id = ID; req.body = datos actualizados).
- * @param {Object} res - Respuesta HTTP (devuelve la moto actualizada o un error).
- */
 exports.actualizar = async (req, res) => {
   try {
     const { id } = req.params;
     const updated = await Moto.update(req.body, { where: { id } });
     if (updated > 0) {
       const motoActualizada = await Moto.findByPk(id);
-      res.json(motoActualizada);
+      res.json(procesarImagen(motoActualizada));
     } else {
       res.status(404).json({ error: 'Moto no encontrada' });
     }
@@ -87,12 +112,6 @@ exports.actualizar = async (req, res) => {
   }
 };
 
-/**
- * Elimina una motocicleta por su ID.
- * 
- * @param {Object} req - Solicitud HTTP (req.params.id contiene el ID a borrar).
- * @param {Object} res - Respuesta HTTP (confirma eliminación o error).
- */
 exports.borrar = async (req, res) => {
   try {
     const { id } = req.params;
@@ -108,18 +127,12 @@ exports.borrar = async (req, res) => {
   }
 };
 
-/**
- * Obtiene una motocicleta por su ID.
- * 
- * @param {Object} req - Solicitud HTTP (req.params.id contiene el ID de la moto).
- * @param {Object} res - Respuesta HTTP (devuelve la moto o un error 404).
- */
 exports.obtenerPorId = async (req, res) => {
   try {
     const { id } = req.params;
     const moto = await Moto.findByPk(id);
     if (moto) {
-      res.json(moto);
+      res.json(procesarImagen(moto));
     } else {
       res.status(404).json({ error: 'Moto no encontrada' });
     }
@@ -129,7 +142,6 @@ exports.obtenerPorId = async (req, res) => {
   }
 };
 
-// 🔥 NUEVA FUNCIÓN: Reiniciar tabla completa
 exports.resetearTabla = async (req, res) => {
   try {
     await sequelize.query('TRUNCATE TABLE tabla_moto');

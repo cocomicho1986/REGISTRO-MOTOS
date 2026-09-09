@@ -37,12 +37,6 @@ export default function MotoListPublica() {
           onChange={(e) => setDominio(e.target.value)}
           className="search-input-publica"
         />
-        {/*<button
-          onClick={() => {}}
-          className="btn-buscar-publica"
-        >
-          Buscar
-        </button>*/}
       </div>
 
       <div className="moto-table-container-publica">
@@ -57,6 +51,7 @@ export default function MotoListPublica() {
                   <th>Marca</th>
                   <th>Modelo</th>
                   <th>Tipo</th>
+                  <th>Imagen</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,13 +62,23 @@ export default function MotoListPublica() {
                       <td data-label="Marca">{moto.marca || '—'}</td>
                       <td data-label="Modelo">{moto.modelo || '—'}</td>
                       <td data-label="Tipo">{moto.tipo || '—'}</td>
+                      
+                      <td data-label="Imagen" style={{ textAlign: 'center' }}>
+                        {moto.imagen ? (
+                          <img 
+                            src={moto.imagen} 
+                            alt={`Moto ${moto.dominio}`} 
+                            className="moto-thumbnail" 
+                          />
+                        ) : (
+                          <span className="no-image-text">Sin imagen</span>
+                        )}
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="table-empty-publica">
-                      No hay motos registradas.
-                    </td>
+                    <td colSpan="5" className="table-empty-publica">No hay motos registradas.</td>
                   </tr>
                 )}
               </tbody>

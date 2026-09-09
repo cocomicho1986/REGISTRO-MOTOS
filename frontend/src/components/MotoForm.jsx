@@ -1,3 +1,4 @@
+// frontend/src/components/MotoForm.jsx
 import useMotoForm from '../hooks/useMotoForm';
 import '../assets/styles/components/motoForm.css';
 
@@ -11,7 +12,8 @@ export default function MotoForm() {
     handleSubmit,
     handleCancel,
     formErrors,
-    validateField
+    validateField,
+    handleRemoveImage // <-- NUEVO: Desestructuramos la función para eliminar la imagen
   } = useMotoForm();
 
   if (error && !formErrors.dominio) {
@@ -105,7 +107,6 @@ export default function MotoForm() {
             />
             {formErrors.tipo && <span className="error-message">{formErrors.tipo}</span>}
           </div>
-          
         
           <div className="form-group">
             <label className="form-label">Uso:</label>
@@ -160,7 +161,6 @@ export default function MotoForm() {
             {formErrors.cilindrada && <span className="error-message">{formErrors.cilindrada}</span>}
           </div>
           
-          {/*CAMPO VENCE: manejo especial para "SIN VENCIMIENTO" */}
           <div className="form-group">
             <label className="form-label">Vence:</label>
             <input
@@ -174,20 +174,46 @@ export default function MotoForm() {
               className="form-input"
             />
           </div>
+
+          {/* ========================================== */}
+          {/* NUEVO CAMPO: IMAGEN DE LA MOTO             */}
+          {/* ========================================== */}
+          <div className="form-group image-group">
+            <label className="form-label">Imagen de la Moto:</label>
+            <input
+              type="file"
+              name="imagen"
+              accept="image/*"
+              onChange={handleChange}
+              className="form-input"
+            />
+            
+            {/* Vista previa de la imagen si existe */}
+            {moto.imagen && (
+              <div className="image-preview-container">
+                <img 
+                  src={moto.imagen} 
+                  alt="Vista previa de la moto" 
+                  className="image-preview" 
+                />
+                <button 
+                  type="button" 
+                  onClick={handleRemoveImage} 
+                  className="btn-remove-image"
+                >
+                  🗑️ Eliminar imagen
+                </button>
+              </div>
+            )}
+          </div>
+
         </div>
 
         <div className="form-actions">
-          <button
-            type="submit"
-            className="btn-submit"
-          >
+          <button type="submit" className="btn-submit">
             {id ? 'Actualizar' : 'Guardar'}
           </button>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="btn-cancel"
-          >
+          <button type="button" onClick={handleCancel} className="btn-cancel">
             Cancelar
           </button>
         </div>

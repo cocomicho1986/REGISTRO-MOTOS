@@ -1,4 +1,4 @@
-// models/Moto.js
+// backend/models/Moto.js
 // Modelo de Sequelize para la tabla 'tabla_moto'.
 // Representa una motocicleta reportada (por ejemplo, robada o registrada).
 // Define todos los campos necesarios para identificar y describir una moto.
@@ -17,7 +17,7 @@ const Moto = sequelize.define('tabla_moto', {
 
   // Datos descriptivos de la motocicleta
   cedula: {
-    type: DataTypes.STRING(20),     // Cédula del propietario o responsable (DNI máximo 8-9 dígitos + formato)
+    type: DataTypes.STRING(20),
     validate: {
       len: {
         args: [0, 20],
@@ -26,7 +26,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   dominio: {
-    type: DataTypes.STRING(15),    // Patente o matrícula de la moto (campo clave para búsqueda)
+    type: DataTypes.STRING(15),
     allowNull: false,
     validate: {
       notEmpty: {
@@ -39,7 +39,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   marca: {
-    type: DataTypes.STRING(50),      // Marca del fabricante (ej: Honda, Yamaha)
+    type: DataTypes.STRING(50),
     validate: {
       len: {
         args: [0, 50],
@@ -48,7 +48,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   modelo: {
-    type: DataTypes.STRING(50),     // Modelo específico (ej: CBR600, R1)
+    type: DataTypes.STRING(50),
     validate: {
       len: {
         args: [0, 50],
@@ -57,7 +57,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   tipo: {
-    type: DataTypes.STRING(30),       // Tipo de motocicleta (ej: Deportiva, Naked, Custom)
+    type: DataTypes.STRING(30),
     validate: {
       len: {
         args: [0, 30],
@@ -66,7 +66,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   uso: {
-    type: DataTypes.STRING(20),        // Uso declarado (ej: Particular, Comercial)
+    type: DataTypes.STRING(20),
     validate: {
       len: {
         args: [0, 20],
@@ -75,7 +75,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   cuadro: {
-    type: DataTypes.STRING(50),     // Número de chasis o cuadro (VIN - máximo 17 caracteres estándar)
+    type: DataTypes.STRING(50),
     validate: {
       len: {
         args: [0, 50],
@@ -84,7 +84,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   motor: {
-    type: DataTypes.STRING(50),      // Número de serie del motor
+    type: DataTypes.STRING(50),
     validate: {
       len: {
         args: [0, 50],
@@ -93,7 +93,7 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   cilindrada: {
-    type: DataTypes.STRING(10), // Capacidad del motor en cc (ej: 600, 1000)
+    type: DataTypes.STRING(10),
     validate: {
       len: {
         args: [0, 10],
@@ -102,14 +102,22 @@ const Moto = sequelize.define('tabla_moto', {
     }
   },
   vence: {
-    type: DataTypes.STRING(20)       // Fecha de vencimiento de registro (almacenada como texto, ej: "2026-12-31")
+    type: DataTypes.STRING(20)
+  },
+  
+  // ==========================================
+  // NUEVO CAMPO: Imagen de la motocicleta
+  // ==========================================
+  imagen: {
+    type: DataTypes.BLOB('long'), // 'long' permite almacenar imágenes más grandes (ideal para Base64 o binario)
+    allowNull: true               // Opcional, para no romper registros existentes que no tengan imagen
   }
+
 }, {
-  // Nombre exacto de la tabla en la base de datos (evita que Sequelize use su propia convención de nombres)
+  // Nombre exacto de la tabla en la base de datos
   tableName: 'tabla_moto',
 
   // Desactiva los campos automáticos 'createdAt' y 'updatedAt'
-  // porque tu tabla no los incluye y no son necesarios para este caso de uso
   timestamps: false
 });
 

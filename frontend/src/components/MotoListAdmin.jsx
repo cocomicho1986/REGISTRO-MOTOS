@@ -8,17 +8,9 @@ export default function MotoListAdmin() {
   const navigate = useNavigate();
   const { motos, dominio, setDominio, loading, borrarMoto, resetearTablaMotos } = useMotos();
 
-  const handleCrear = () => {
-    navigate('/admin/motos/nueva');
-  };
-
-  const handleEditar = (id) => {
-    navigate(`/admin/motos/editar/${id}`);
-  };
-
-  const handleBorrar = async (id) => {
-    await borrarMoto(id);
-  };
+  const handleCrear = () => navigate('/admin/motos/nueva');
+  const handleEditar = (id) => navigate(`/admin/motos/editar/${id}`);
+  const handleBorrar = async (id) => await borrarMoto(id);
 
   return (
     <div className="moto-list-container">
@@ -27,18 +19,8 @@ export default function MotoListAdmin() {
       <div className="moto-list-header">
         <h2 className="moto-list-title">Gestión de Motos (Admin)</h2>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button
-            onClick={resetearTablaMotos}
-            className="btn-reset-peligroso"
-          >
-            💥 Restaurar tabla
-          </button>
-          <button
-            onClick={handleCrear}
-            className="btn-agregar-moto"
-          >
-            + Agregar Moto
-          </button>
+          <button onClick={resetearTablaMotos} className="btn-reset-peligroso">💥 Restaurar tabla</button>
+          <button onClick={handleCrear} className="btn-agregar-moto">+ Agregar Moto</button>
         </div>
       </div>
 
@@ -50,12 +32,6 @@ export default function MotoListAdmin() {
           onChange={(e) => setDominio(e.target.value)}
           className="search-input"
         />
-        {/*<button
-          onClick={() => {}}
-          className="btn-buscar"
-        >
-          Buscar
-        </button>*/}
       </div>
 
       <div className="moto-table-container">
@@ -72,6 +48,7 @@ export default function MotoListAdmin() {
                   <th>Cédula</th>
                   <th>Uso</th>
                   <th>Vence</th>
+                  <th>Imagen</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -85,29 +62,28 @@ export default function MotoListAdmin() {
                       <td data-label="Cédula">{moto.cedula || '—'}</td>
                       <td data-label="Uso">{moto.uso || '—'}</td>
                       <td data-label="Vence">{moto.vence || '—'}</td>
+                      
+                      <td data-label="Imagen" style={{ textAlign: 'center' }}>
+                        {moto.imagen ? (
+                          <img 
+                            src={moto.imagen} 
+                            alt={`Moto ${moto.dominio}`} 
+                            className="moto-thumbnail" 
+                          />
+                        ) : (
+                          <span className="no-image-text">Sin imagen</span>
+                        )}
+                      </td>
+
                       <td data-label="Acciones">
-                        <button
-                          onClick={() => handleEditar(moto.id)}
-                          className="btn-accion btn-editar"
-                          title="Editar"
-                        >
-                          ✏️
-                        </button>
-                        <button
-                          onClick={() => handleBorrar(moto.id)}
-                          className="btn-accion btn-borrar"
-                          title="Borrar"
-                        >
-                          🗑️
-                        </button>
+                        <button onClick={() => handleEditar(moto.id)} className="btn-accion btn-editar" title="Editar">✏️</button>
+                        <button onClick={() => handleBorrar(moto.id)} className="btn-accion btn-borrar" title="Borrar">🗑️</button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="table-empty">
-                      No hay motos registradas.
-                    </td>
+                    <td colSpan="8" className="table-empty">No hay motos registradas.</td>
                   </tr>
                 )}
               </tbody>

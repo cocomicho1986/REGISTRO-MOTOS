@@ -1,3 +1,4 @@
+/* frontend/src/assets/styles/components/motoListPublica.css*/
 /* Estilos para la lista pública de motos robadas — Mejorado y responsive */
 .moto-list-publica-container {
   max-width: 1200px;
@@ -213,5 +214,51 @@
     color: #4b5563;
     min-width: 70px;
     margin-right: 8px;
+  }
+}
+/* ========================================== */
+/* ESTILOS PARA MINIATURA DE IMAGEN EN TABLA  */
+/* ========================================== */
+
+/* Miniatura de imagen en la tabla */
+.moto-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; /* Recorta la imagen para llenar el cuadrado sin deformarla */
+  border-radius: 6px; /* Coincide con el border-radius de los inputs y botones */
+  border: 1px solid #e5e7eb; /* Mismo borde que las celdas de la tabla */
+  background-color: #f9fafb; /* Mismo fondo que los headers */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.moto-thumbnail:hover {
+  transform: scale(1.8); /* Zoom más pronunciado para ver mejor la imagen */
+  z-index: 100;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Texto cuando la moto no tiene imagen */
+.no-image-text {
+  color: #9ca3af; /* Gris medio, sutil */
+  font-size: 0.8125rem; /* Mismo tamaño que los headers */
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Ajuste responsive para móvil: la miniatura se ve bien en las tarjetas */
+@media (max-width: 768px) {
+  .moto-thumbnail {
+    width: 60px; /* Un poco más grande en móvil para que se vea mejor */
+    height: 60px;
+  }
+  
+  /* Ajuste especial para la columna de imagen en móvil */
+  .moto-table-publica tbody tr td[data-label="Imagen"] {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
   }
 }
