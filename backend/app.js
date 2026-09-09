@@ -35,16 +35,12 @@ const config = {
 // Configuración dinámica de CORS
 app.use(cors({
   origin: function (origin, callback) {
-    // Permite solicitudes sin origin (Postman, mobile, etc.)
     if (!origin) return callback(null, true);
-    // Permite frontend en desarrollo
     if (origin === 'http://localhost:3000') return callback(null, true);
-    // Permite cualquier subdominio de Render
     if (origin.endsWith('.onrender.com')) return callback(null, true);
-    // Rechaza otros orígenes
     callback(new Error('Origen no permitido por CORS'));
   },
-  credentials: true // ← Permite enviar cookies/sesiones
+  credentials: true
 }));
 
 // Parsear JSON y formularios
@@ -59,7 +55,7 @@ app.use(session({
   cookie: {
     maxAge: config.session.maxAge,
     httpOnly: true,
-    secure: config.env === 'production', // HTTPS solo en producción
+    secure: config.env === 'production',
     sameSite: config.env === 'production' ? 'none' : 'lax'
   }
 }));
@@ -113,29 +109,21 @@ async function initDatabase() {
     await sequelize.authenticate();
     console.log('✅ Conexión con Sequelize verificada.');
 
+    // Sincroniza las tablas sin forzar (no borra datos existentes)
     await sequelize.sync({ force: false });
 
-    const adminUser = await Usuario.findOne({ where: { nombre: 'admin' } });
-    const bcrypt = require('bcrypt');
+    // ✅ NUEVA LÓGICA: Solo crear admin si la tabla está completamente vacía
+    const cantidadUsuarios = await Usuario.count();
 
-    if (!adminUser) {
+    if (cantidadUsuarios === 0) {
+      // Asumiendo que tu modelo tiene este método estático personalizado
       await Usuario.crearConHash('admin', '1234', 'admin@gmail.com');
-      console.log('🔑 Usuario "admin" creado con contraseña hasheada y email.');
+      console.log('🔑 Usuario "admin" creado por defecto (tabla de usuarios vacía).');
     } else {
-      const esHashBcrypt = adminUser.clave.startsWith('$2b$') || 
-                           adminUser.clave.startsWith('$2a$') || 
-                           adminUser.clave.startsWith('$2y$');
-      
-      if (!esHashBcrypt) {
-        const nuevoHash = await bcrypt.hash('1234', 10);
-        await Usuario.update({ clave: nuevoHash }, { where: { id: adminUser.id } });
-        console.log('🔑 Contraseña del usuario "admin" actualizada a hash seguro.');
-      } else {
-        console.log('👤 Usuario "admin" ya existe con contraseña hasheada.');
-      }
+      console.log(`ℹ️ La tabla de usuarios ya tiene ${cantidadUsuarios} registro(s). No se crea el admin por defecto.`);
     }
 
-    console.log('✅ Tablas sincronizadas y usuario de prueba listo.');
+    console.log('✅ Tablas sincronizadas y verificación de usuarios completada.');
 
   } catch (err) {
     console.error('❌ Error detallado al conectar con la base de datos:');
@@ -176,3 +164,5 @@ initDatabase()
     console.error('💥 Error fatal al iniciar backend. La aplicación se cerrará.');
     process.exit(1);
   });
+
+module.exports = app; // Buena práctica para tests o servidores serverless
