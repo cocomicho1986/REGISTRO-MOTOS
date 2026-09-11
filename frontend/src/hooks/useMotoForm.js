@@ -10,30 +10,30 @@ const validateSingleField = (fieldName, value) => {
       if (!value || !value.trim()) return 'El dominio es obligatorio';
       if (value.length < 3) return 'El dominio debe tener al menos 3 caracteres';
       if (value.length > 15) return 'El dominio no puede superar los 15 caracteres';
-      return '';
+      return null;
     case 'cedula':
       if (value && value.length > 20) return 'La cédula no puede superar los 20 caracteres';
-      return '';
+      return null;
     case 'marca':
       if (value && value.length > 50) return 'La marca no puede superar los 50 caracteres';
-      return '';
+      return null;
     case 'modelo':
       if (value && value.length > 50) return 'El modelo no puede superar los 50 caracteres';
-      return '';
+      return null;
     case 'tipo':
       if (value && value.length > 30) return 'El tipo no puede superar los 30 caracteres';
-      return '';
+      return null;
     case 'cuadro':
       if (value && value.length > 50) return 'El número de cuadro no puede superar los 50 caracteres';
-      return '';
+      return null;
     case 'motor':
       if (value && value.length > 50) return 'El número de motor no puede superar los 50 caracteres';
-      return '';
+      return null;
     case 'cilindrada':
       if (value && value.length > 10) return 'La cilindrada no puede superar los 10 caracteres';
-      return '';
+      return null;
     default:
-      return '';
+      return null;
   }
 };
 
@@ -44,7 +44,7 @@ const validateForm = (moto) => {
     // Ignoramos la validación de 'imagen' porque es opcional
     if (field !== 'imagen') {
       const error = validateSingleField(field, moto[field]);
-      if (error) errors[field] = error;
+      if (error != null) errors[field] = error;
     }
   });
   return errors;
@@ -72,20 +72,19 @@ export default function useMotoForm() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+ useEffect(() => {
     if (id) {
       setInitialLoading(true);
       const cargarMoto = async () => {
         try {
           const res = await api.get(`/motos/${id}`);
           if (res.data) {
-            // Manejo seguro de la imagen: si viene como Buffer desde Sequelize, lo convertimos a Base64 para la vista previa
+            // Manejo seguro de la imagen
             let imagenPreview = null;
             if (res.data.imagen) {
               if (typeof res.data.imagen === 'string') {
                 imagenPreview = res.data.imagen;
               } else {
-                // Si es un objeto/buffer, lo convertimos
                 imagenPreview = `data:image/jpeg;base64,${Buffer.from(res.data.imagen).toString('base64')}`;
               }
             }
@@ -98,11 +97,16 @@ export default function useMotoForm() {
             };
             setMoto(datosConDefaults);
           } else {
-            setError('Moto no encontrada');
+            // 1. Si la API responde pero no trae datos, muestra alerta y regresa
+            alert('La moto no fue encontrada.');
+            navigate('/admin/motos');
           }
         } catch (err) {
           console.error('Error al cargar moto:', err);
-          setError('No se pudo cargar la moto');
+          // 2. Si la API da error (ej. el ID no existe en la BD), muestra alerta y regresa
+          alert('No se pudo cargar la moto o el ID es inválido.');
+           
+          navigate('/admin/motos');
         } finally {
           setInitialLoading(false);
         }
