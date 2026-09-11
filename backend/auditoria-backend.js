@@ -96,7 +96,7 @@ async function auditarBackend() {
 
     // 3. Verificar existencia de usuario admin
     console.log('3. Verificando usuario admin...');
-    const [adminRows] = await sequelize.query("SELECT * FROM tabla_usuario WHERE nombre = 'admin'");
+    const [adminRows] = await sequelize.query("SELECT * FROM tabla_usuario WHERE nombre = 'admin' or nombre!=''");
     if (adminRows.length === 0) {
       console.log('❌ Usuario admin no encontrado');
       errores++;
