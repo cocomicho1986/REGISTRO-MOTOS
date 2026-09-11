@@ -1,76 +1,114 @@
+/* frontend/src/assets/styles/components/registerForm.css */
+
+/* Wrapper para centrar el formulario en toda la pantalla */
+.register-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Estilos para el formulario de registro */
 .register-form-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .register-form-title {
   text-align: center;
-  color: #333;
-  margin-bottom: 25px;
-  font-size: 24px;
+  color: #1f2937;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form-group-register {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .register-input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .register-input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .register-btn {
   width: 100%;
   padding: 12px;
-  background: #007bff;
+  background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-top: 8px;
 }
 
 .register-btn:hover {
-  background: #0056b3;
+  background-color: #2563eb;
+}
+
+.register-btn:active {
+  transform: scale(0.98);
+}
+
+.register-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
 }
 
 .register-error {
-  color: #dc3545;
+  color: #dc2626;
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: #fef2f2;
+  padding: 8px;
+  border-radius: 6px;
 }
 
 .register-success {
-  color: #28a745;
+  color: #059669;
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background-color: #ecfdf5;
+  padding: 8px;
+  border-radius: 6px;
 }
 
 .register-login-link {
   text-align: center;
   margin-top: 20px;
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 .register-login-link a {
-  color: #007bff;
+  color: #3b82f6;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .register-login-link a:hover {

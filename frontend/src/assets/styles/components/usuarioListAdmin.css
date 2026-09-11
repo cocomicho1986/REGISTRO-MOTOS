@@ -1,3 +1,4 @@
+/*frontend/src/assets/styles/components/usuarioListAdmin.css
 /* Estilos para la lista de usuarios del admin - VERSIÓN COMPACTA Y RESPONSIVE */
 .usuario-list-container {
   max-width: 1200px;
@@ -169,12 +170,11 @@
   }
 
   .usuario-table-container {
-    max-height: none;
-    overflow-y: visible;
-    border: none;
-    border-radius: 0;
-    margin-left: 16px;
-    margin-right: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 8px; /* Un poco más redondeado para suavizar */
+    margin-top: 16px;
   }
 
   .usuario-table-wrapper {

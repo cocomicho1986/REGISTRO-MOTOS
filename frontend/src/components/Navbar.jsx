@@ -1,3 +1,4 @@
+//frontend/src/components/Navbar.jsx
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../assets/styles/components/navbar.css';

@@ -77,12 +77,9 @@
 .moto-table-container {
   max-height: 60vh;
   overflow-y: auto;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dee2e6;
+  border-radius: 8px; /* Un poco más redondeado para suavizar */
   margin-top: 16px;
-  /* Márgenes con dashboard vertical - CORREGIDO */
-  margin-left: 24px;
-  margin-right: 24px;
 }
 
 /* Scroll horizontal suave solo cuando sea necesario */

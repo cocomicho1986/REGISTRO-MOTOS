@@ -1,3 +1,4 @@
+/*frontend/src/components/ProfileView.jsx*/
 import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
