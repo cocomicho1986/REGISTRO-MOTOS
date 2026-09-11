@@ -96,16 +96,25 @@ exports.crear = async (req, res) => {
   }
 };
 
+// ✅ ÚNICO CAMBIO: Verificar existencia primero para evitar falso 404 cuando no hay cambios
 exports.actualizar = async (req, res) => {
   try {
     const { id } = req.params;
-    const updated = await Moto.update(req.body, { where: { id } });
-    if (updated > 0) {
-      const motoActualizada = await Moto.findByPk(id);
-      res.json(procesarImagen(motoActualizada));
-    } else {
-      res.status(404).json({ error: 'Moto no encontrada' });
+    
+    // 1. Primero verificamos si la moto existe
+    const motoExistente = await Moto.findByPk(id);
+    if (!motoExistente) {
+      return res.status(404).json({ error: 'Moto no encontrada' });
     }
+
+    // 2. Intentamos actualizar. 
+    // NOTA: Si los datos son idénticos, Sequelize reporta 0 cambios, pero NO es un error.
+    await Moto.update(req.body, { where: { id } });
+    
+    // 3. Obtenemos y devolvemos la moto (actualizada o igual, pero siempre válida)
+    const motoActualizada = await Moto.findByPk(id);
+    res.json(procesarImagen(motoActualizada));
+    
   } catch (error) {
     console.error('Error en actualizar moto:', error);
     res.status(400).json({ error: 'Error al actualizar la motocicleta' });
